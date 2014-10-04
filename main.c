@@ -1,4 +1,6 @@
 #include "constantes.h"
+#include "perfectImage.h"
+#include "findChar.h"
 
 int main(int argc, char *argv[])
 {
@@ -47,10 +49,10 @@ int main(int argc, char *argv[])
 			continuer = 0;
 			break;
 		    case SDLK_KP1:
-			// perfectImage(ecran);
+			perfectImage(image);
 			break;
 		    case SDLK_KP2:
-			// findChar(ecran);
+			findChar(image);
 			break;
 		    default:
 			break;
@@ -69,11 +71,11 @@ int main(int argc, char *argv[])
 	    case SDL_MOUSEBUTTONUP:
 		if (event.button.x >= positionButton1.x && event.button.x <= positionButton1.x + BUTTON_WIDTH && event.button.y >= positionButton1.y && event.button.y < positionButton1.y + BUTTON_HEIGHT)
 		{
-		    // perfectImage(image);
+		    perfectImage(image);
 		}
 		if (event.button.x >= positionButton2.x && event.button.x <= positionButton2.x + BUTTON_WIDTH && event.button.y >= positionButton2.y && event.button.y < positionButton2.y + BUTTON_HEIGHT)  
 		{
-		    // findChar(image);
+		    findChar(image);
 		}
 		break;
 	    default:
