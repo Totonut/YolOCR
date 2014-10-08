@@ -27,8 +27,8 @@ int main(int argc, char *argv[])
     imageButton1=button1_1;
     imageButton2=button2_1;
 
-    positionImage.x = 60;
-    positionImage.y = 0;
+    positionImage.x = 0;
+    positionImage.y = 70;
     positionButton1.x = 10;
     positionButton1.y = 5;
     positionButton2.x = 170;

@@ -5,8 +5,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL/SDL.h>
-#include "SDL/SDL_image.h"
-#include <SDL/SDL_ttf.h>
+#ifdef __APPLE__
+	#include <SDL_image/SDL_image.h>
+	#include <SDL_ttf/SDL_ttf.h>
+#else
+	#include "SDL/SDL_image.h"
+	#include "SDL_ttf.h"
+#endif		
 
 void perfectImage(SDL_Surface* ecran);
 Uint32 obtenirPixel(SDL_Surface *surface, int x, int y);
