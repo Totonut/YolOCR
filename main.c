@@ -5,7 +5,8 @@
 int main(int argc, char *argv[])
 {
     SDL_Surface *ecran = NULL, *image = NULL, *imageButton1=NULL, *imageButton2=NULL, *button1_1=NULL, *button1_2=NULL, *button2_1=NULL, *button2_2;
-    SDL_Rect positionImage, positionButton1, positionButton2;
+    unsigned* chars = NULL;
+	SDL_Rect positionImage, positionButton1, positionButton2;
     SDL_Event event;
 
     int continuer = 1;
@@ -15,11 +16,11 @@ int main(int argc, char *argv[])
 
     SDL_WM_SetIcon(IMG_Load("icone.jpg"), NULL);
     ecran = SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    SDL_WM_SetCaption("YolOCR", NULL);
-    if (argv[1]!=NULL)
-	image = IMG_Load(argv[1]);
+	SDL_WM_SetCaption("YolOCR", NULL);
+    if (argc==2)
+		image = IMG_Load(argv[1]);
     else
-	image = IMG_Load("image.jpg");
+		image = IMG_Load("image.jpg");
     button1_1=IMG_Load("images/button1_1.jpg");
     button1_2=IMG_Load("images/button1_2.jpg");
     button2_1=IMG_Load("images/button2_1.jpg");
@@ -48,12 +49,6 @@ int main(int argc, char *argv[])
 		    case SDLK_ESCAPE:
 			continuer = 0;
 			break;
-		    case SDLK_KP1:
-			perfectImage(image);
-			break;
-		    case SDLK_KP2:
-			findChar(image);
-			break;
 		    default:
 			break;
 		}
@@ -75,7 +70,7 @@ int main(int argc, char *argv[])
 		}
 		if (event.button.x >= positionButton2.x && event.button.x <= positionButton2.x + BUTTON_WIDTH && event.button.y >= positionButton2.y && event.button.y < positionButton2.y + BUTTON_HEIGHT)  
 		{
-		    findChar(image);
+		    chars=findChar(image);
 		}
 		break;
 	    default:

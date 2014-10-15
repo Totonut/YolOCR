@@ -4,9 +4,7 @@ SDL_1:SDL_1.c SDLmain.o
 SDLmain.o:SDLmain.h SDLmain.m
 
 all:
-	@echo "*** NO RULES ***"
-	@false
-
+	@echo Caca
 clean:
 	rm -f *~ *.o
- 
+	rm -f main

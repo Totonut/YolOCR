@@ -1,36 +1,28 @@
 #include "findChar.h"
 
-unsigned* findLines(SDL_Surface* ecran)
+unsigned findLines(SDL_Surface* ecran, unsigned *buffer)
 {
-	unsigned *buffer = malloc(ecran->h * sizeof(unsigned));
-	int count=0;
-	unsigned ecriture = 0;
-	unsigned j = 0;
-	for (unsigned i=ecran->h-1; i>0;i--)
+	buffer[0]=5;
+	unsigned ecriture = -2;
+	int count=1;
+	for (unsigned i=0; i<ecran->h;++i)
 	{
-		for (j=0;j<ecran->w;j++)
+		for (unsigned j=0;j<ecran->w;++j)
 		{
 			if (obtenirPixel(ecran, j, i)==0x00000000) 
-			{
-				if (count == 0)
-				{
-					drawLine(ecran, i);
-					count++;
-					buffer[0]=i;
-				}
-				else if (count != 0 && ecriture-i > 1)
-				{
-					j=ecran->w;
-					drawLine(ecran, i);
-					buffer[count]=i;
-					count++;
-				}
+			{		
 				ecriture = i;
+				j=ecran->w;
+			}
+			else if (i-ecriture==1 && j==ecran->w-1)
+			{
+				drawLine(ecran, i);
+				buffer[count] =i;
+				count++;
 			}
 		}
-	} 
-	buffer[count]=1;
-	return buffer;
+	}
+	return count;
 } 
 
 void drawLine(SDL_Surface* ecran, unsigned line)
@@ -41,30 +33,81 @@ void drawLine(SDL_Surface* ecran, unsigned line)
 	}
 } 
 
-unsigned* findChars(SDL_Surface* ecran, unsigned* lines)
+/*int is_linked_pixel(unsigned* buffer1, unsigned* buffer2, size_t size, int i, int add)
 {
-	unsigned buffer = NULL;
-	unsigned i = 0, max=0, min=0, maxw=0, minw=0, x=0, caractere = 0, ecriture=0;
+	return (buffer2[i] && (buffer1[i] || (i>0 && buffer1[i-1]) || (i<size-1 && buffer1[i+1]) || (i+add>=0 && i+add <size && is_linked_pixel(buffer1, buffer2, size, i+add, add))));
+}*/
+
+/*int is_linked(unsigned* buffer1, unsigned* buffer2, size_t size)
+{
+	int i=0;
+	for (;i<size;i++)
+	{
+		if (buffer2[i] && !is_linked_pixel(buffer1, buffer2, size, i, 1) && !is_linked_pixel(buffer1, buffer2, size, i, -1))
+			break;
+	}
+	return i==size? 1 : 0;
+}*/
+
+
+/*void empty(unsigned* buffer, size_t lineHeight)
+{
+	for (int i=0;i<lineHeight;i++)
+		buffer[i]=0;
+}*/
+
+/*void initialize(unsigned*buffer, size_t size)
+{
+	buffer = malloc(size*sizeof(unsigned));
+	for (int i=0;i<size;i++)
+		buffer[i]=0;	
+
+}*/
+
+unsigned* findChars(SDL_Surface* ecran, unsigned* lines, unsigned size)
+{ 
+	unsigned *buffer = malloc(2*ecran->w*size*sizeof(unsigned));
+	unsigned i = 1, max=0, min=0, maxw=0, minw=0, x=0, caractere = 0, ecriture=0, count=0;
+// Ecriture : valeure initialisees ?
+// Caractere : pixels noirs sur la ligne ?
+
+
+//	unsigned add1[] = {};
+//	unsigned add2[] = {};
+//	initialize(add1, ecran->h);
+//	initialize(add2, ecran->h);
+//	size_t lineHeight=0;
+	unsigned prev = 0;
+	unsigned suiv = 0;
 	if (lines != NULL)
 	{
-		unsigned prev = 0;
-		unsigned suiv = lines[0];
-		while (lines[i+1]!=0)
+		prev = 0;
+		suiv = lines[0];
+		while (i<size)
 		{
 			prev=suiv;
-			suiv = lines[i+1];
-			for (unsigned j=0;j<ecran->w;j++)
+			suiv = lines[i];
+//			lineHeight=suiv-prev;
+			for (unsigned j=0;j<ecran->w;++j)
 			{
-				if (caractere==0 && ecriture==1)
+				if (!caractere && ecriture)// || !is_linked(add1, add2, lineHeight))
 				{
+					buffer[count]=x;
+					buffer[count+1]=min;
+					buffer[count+2]=maxw-minw;
+					buffer[count+3]=max-min;
+					count+=4;
 					drawChar(ecran, x, min, maxw-minw, max-min);
 					ecriture=0;
 				}
+//				strncpy(add1, add2, lineHeight);
+//				empty(add2, lineHeight);
 				caractere=0;
-				for (unsigned k=prev;k>suiv;k--)
+				for (unsigned k=prev;k<suiv;++k)
 				{
 					if (obtenirPixel(ecran, j, k)==0x00000000)
 					{	
+//						add2[k-prev]=1;
 						caractere=1;
 						if (ecriture==0)
 						{
@@ -76,7 +119,7 @@ unsigned* findChars(SDL_Surface* ecran, unsigned* lines)
 							ecriture=1;
 						}
 						else
-						{	
+						{		
 							min = k<min? k:min;
 							max = k>max? k:max;
 							minw = j<minw? j:minw;
@@ -86,7 +129,7 @@ unsigned* findChars(SDL_Surface* ecran, unsigned* lines)
 						
 				}
 			} 
-			i++;
+			++i;
 		}
 	}
 	return buffer;
@@ -95,21 +138,21 @@ unsigned* findChars(SDL_Surface* ecran, unsigned* lines)
 void drawChar(SDL_Surface* ecran, unsigned x, unsigned y, unsigned w, unsigned h)
 {
 	// On essaye d'encadrer le caractère sans le toucher
-	if (y-1>=0)
+	if (y>=1)
 	{
 		y--;
 		h++;
 	}
-	if (x-1>=0)
+	if (x>=1)
 	{	
 		x--;
 		w++;
 	}
-	if (x+w+1<=ecran->w-1)
+	if (x+w<=ecran->w-2)
 	{	
 		w++;
 	}
-	if (y+h+1<=ecran->h-1)
+	if (y+h<=ecran->h-2)
 	{	
 		h++;
 	}
@@ -128,6 +171,8 @@ void drawChar(SDL_Surface* ecran, unsigned x, unsigned y, unsigned w, unsigned h
 
 unsigned * findChar(SDL_Surface* ecran)
 {
-	return findChars(ecran, findLines(ecran));
+	unsigned* buffer = malloc(ecran->w*sizeof(unsigned));
+	unsigned size = findLines(ecran, buffer);
+	return findChars(ecran, buffer, size);
 }
 
