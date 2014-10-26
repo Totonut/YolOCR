@@ -1,21 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<math.h> 
-#include<time.h>
- 
+#include"neuralNetwork.h"   
 
-struct neuron
-{
-   float *w;
-   float output;
-   float error;
-};
 
- 
-#define THRESHOLD   0.001     // Average prmissible output error 
- 
-
-const long MAX_ITER = 100000;  // Max iter while learning 
+const float THRESHOLD = 0.001;  // Average prmissible output error
+const long MAX_ITER = 100000;  // Max iter while learning
 
 
 struct neuron **new_network(int layers, int *layers_Size)
@@ -39,6 +26,7 @@ struct neuron **new_network(int layers, int *layers_Size)
 }
 
 // Activation function
+
 
 float logistic(float x)
 {
@@ -101,7 +89,7 @@ void feedforward(struct neuron **n, int *layers_Size, int layers)
 }
 
 
-float final_error(struct neuron **n, int *example, int *layers_Size, int layers)
+float final_error(struct neuron **n, int *example, int *layers_Size,int layers)
 {
     int i;
     float output_error = 0.0;
@@ -111,8 +99,8 @@ float final_error(struct neuron **n, int *example, int *layers_Size, int layers)
     {
         Error = (1.0 * example[layers_Size[0]+i]) - n[layers-1][i].output;
         n[layers-1][i].error = Error * derivative(n[layers-1][i].output);
-        output_error += 0.5 * Error * Error;     
-    }       
+        output_error += 0.5 * Error * Error;
+    }
     return output_error;
 }
 
@@ -169,25 +157,25 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
 {
     int i;
     float Error;
-    long iter = 0;  
+    long iter = 0;
 
     do
     {
      iter++;
      Error = 0.0;
-                                                     
+
      for(i=0;i<nb_ex;i++)
         Error += calculate(n, examples[i], layers_Size, layers);
     }while( (Error>THRESHOLD * nb_ex) && (iter<(long)MAX_ITER) );
 }
 
 
- // Display functions 
+ // Display functions
 
  void display_weights(struct neuron **n, int *layers_Size, int layers)
  {
    int i, j, k;
-            
+
    for(i=0;i<layers-1;i++)
    {
      printf("Layer # %d \n", i);
@@ -221,10 +209,10 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
  int main()
  {
 
-    int layers = 3;// Layers in the network (including input and output layers) 
-    int layers_Size[] = {2,4,1} ;   // Size of each layer   
+    int layers = 3;// Layers in the network (including input and output layers)
+    int layers_Size[] = {2,4,1} ;   // Size of each layer
     
-    struct neuron **net;  
+    struct neuron **net;
     int nb_ex = 4;  // Number of examples;
 
     int e1[] = {0,0,0};
@@ -244,11 +232,10 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
     {
         init_inputs(net, examples[i], layers_Size[0]);
         feedforward(net, layers_Size, layers);
-        printf("\n%d XOR %d = %f\n",examples[i][0], examples[i][1], 
+        printf("\n%d XOR %d = %f\n",examples[i][0], examples[i][1],
             net[layers-1][layers_Size[layers-1]-1].output);
     }
     printf("\n");
 
     return 0;
  }
-
