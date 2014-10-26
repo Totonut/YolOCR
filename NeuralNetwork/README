@@ -1,4 +1,3 @@
-Réseau pas tout a fait fonctionnel, mais produit déjà des résultats (modif des valeurs de neurones cachés et des poids)
 
 Commandes pour tester le réseau de neurones :
 -> make (compiler le code)

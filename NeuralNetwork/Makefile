@@ -5,7 +5,7 @@ OBJ = neuralNetwork.o
 EXE = a.out
 
 CC = clang 
-CFLAGS = -Wall -Wextra -Werror -std=c99 -O3
+CFLAGS = -Wall -Wextra -std=c99 -O3
 
 
 all: main
