@@ -3,8 +3,14 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include "findchar.h"
-void afficher_findchar();
-void open_window();
+#include "findChar.h"
+
+struct newImage
+{
+	SDL_Surface* image;
+	GdkPixbuf* pixbuf;
+};
+void afficher_findchar();//SDL_Surface *image);
+void open_window(int argc, char* argv[], SDL_Surface* image);
 
 #endif
