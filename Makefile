@@ -8,3 +8,4 @@ all:
 clean:
 	rm -f *~ *.o
 	rm -f main
+	rm -f image.bmp image2.bmp
