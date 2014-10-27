@@ -13,7 +13,6 @@
 #endif	
 
 unsigned* find_char(SDL_Surface* screen);
-void draw_line(SDL_Surface* screen, unsigned line);
 unsigned find_lines(SDL_Surface* screen, unsigned *buffer);
 void draw_char(SDL_Surface* screen, unsigned x, unsigned y, unsigned w, unsigned h, Uint32 color);
 

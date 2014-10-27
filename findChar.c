@@ -18,7 +18,8 @@ unsigned find_lines(SDL_Surface* screen, unsigned *buffer)
 			}
 			else if (i-write==1 && j==width-1)
 			{
-				draw_line(screen, i);
+//				draw_line(screen, i);
+				draw_char(screen, 0, i, width-1, -1, 0x000000ff);
 				buffer[count] =i;
 				count++;
 			}
@@ -26,15 +27,6 @@ unsigned find_lines(SDL_Surface* screen, unsigned *buffer)
 	}
 	return count;
 } 
-
-void draw_line(SDL_Surface* screen, unsigned line)
-{
-	for (int i=0; i<=screen->w-1; ++i)
-	{
-		setPix(screen, i, line, 0x000000ff);
-	}
-} 
-
 
 unsigned* find_chars(SDL_Surface* screen, unsigned* lines, unsigned size)
 {
