@@ -72,7 +72,7 @@ unsigned* find_chars(SDL_Surface* screen, unsigned* lines, unsigned size)
 					{
 						number_space=0;
 						found=1;
-						if (write==0)
+						if (!write)
 						{
 							min=k;
 							max=k;
@@ -89,11 +89,11 @@ unsigned* find_chars(SDL_Surface* screen, unsigned* lines, unsigned size)
 							maxw = j>maxw? j:maxw;
 						}
 					}
-					else if (k==next-1 && write==0 && total_length > 0)
+					else if (k==next-1 && !write && total_length > 0)
 					{
 						number_space++;
 						moy= total_length/number_found;
-						if (number_space>= moy*4/5)
+						if (number_space>= (moy*4/5))
 						{
 							buffer[count]=maxw+1;
 							buffer[count+1]=prev;
