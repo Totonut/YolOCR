@@ -1,16 +1,10 @@
 CC=clang
-CPPFLAGS= `pkg-config --libs --cflags gtk+-2.0`
-CFLAGS=-Wall -Werror -Wextra -std=c99
-LDLIBS=-lSDLmain -lSDL -lSDL_image
-SRC = findChar.c perfectImage.c main.c 
-OBJ = $(SRC:.c=.o)
-EXE = YolOCR
+CFLAGS=-Wall -Wextra -std=c99 -Werror `pkg-config --libs --cflags gtk+-2.0` -lSDLmain -lSDL -lSDL_image findChar.c perfectImage.c
 
-all: main
-
-main: $(OBJ)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDLIBS) $(SRC) -o $(EXE) -lm 
+all:
+	@NO-RULES
+	@false
 
 clean:
 	rm -f *~ *.o
-	rm -f YolOCR image.bmp image2.bmp
+	rm -f main
