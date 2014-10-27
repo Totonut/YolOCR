@@ -1,230 +1,241 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-#include <math.h>
+#include"neuralNetwork.h"   
 
-//double exp(double x);
-double drand48(void);
-void srand48(long int seed);
-/*
-struct neuron 
+
+const float THRESHOLD = 0.001;  // Average prmissible output error
+const long MAX_ITER = 100000;  // Max iter while learning
+
+
+struct neuron **new_network(int layers, int *layers_Size)
 {
-    double V; // Value
-    int I; // Index (start at 0)
-    int L; // Layer
-    int Next_Number; // Number of nexts
-    int Next[]; // Array of following/next neurons indexs
-    double Weight[]; // Weight of the different transitions 
-	        // (Weight[i] = weight of the transition with neuron Next[i])
-};
-*/
-
-struct neuralLayer 
-{
-    //int I; // Index of the layer in the network
-    size_t n_Size; // Number of neurons
-    int *n_Index; // array of "n_Size" size containing index of each neuron of the layer 
-    //struct neuron Neurons[]; // Neurons of the layer
-};
-
-struct neuralNetwork
-{
-    size_t l_Size; // Number of layers
-    struct neuralLayer *Layers; // Layers in the network
-    size_t n_Size; // Total number of neurons in the network
-    // struct neuron Neurons_Arrays[]; // All the neurons of the network (sorted using index I)
-    double *values_Vect; // Values of each neuron of the network (indexed using I)
-    double *weights; // Matrix of "N_Size" size containing weight of each link
-    // Activation function g (return "double")
-};
-
-double logistic (double x)
-{  
-    return 1/(1 + exp(-x)); 
-}
-
-/*** Functions ***/
-
-double sum_i (double *weights, int j, double *values_Vect, size_t size)
-{
-    double sum = 0;
-    for (size_t i = 0; i<size; i++)
-    {
-        sum += weights[j * size + i] * values_Vect[i];
-    }
-    return sum;
-
-}
-
-double sum_j (double *weights, int i, double errors_Vect[], size_t size)
-{
-    double sum = 0;
-    for (size_t j = 0; j<size; j++)
-    {
-        sum += weights[j * size + i] * errors_Vect[j];
-    }
-    return sum;
-}
-
-// Algo for a XOR function
-// examples[][] = array of arrays containing 3 double values.
-//                1st and 2nd values are the inputs for XOR
-//                3rd is the wanted output value
-void Back_Prop_Learning(int sets_of_examples, double *examples, struct neuralNetwork *network)
-{
-
-int index = 0;
-double A = 1; // taux d'apprentissage
-double in = 0;
-double *errors = malloc(network->n_Size * sizeof(double));
-for (size_t i = 0; i<network->n_Size; i++)
-{
-    errors[i] = 0;
-}
-
-int test = 0;
-do
-{
-    for(size_t err = 0; err<network->n_Size; err++)
-    {
-        errors[err] = 0;
-    }
-    for(int e = 0; e < sets_of_examples; ++e)
-    {
-        network->values_Vect[0] = examples[e * 3 + 0];
-        network->values_Vect[1] = examples[e * 3 + 1];   
-        
-        for(size_t l = 1; l < network->l_Size; ++l)
-        {
-            for(size_t j = 0; j < network->Layers[l].n_Size; ++j)
-            {
-                index = network->Layers[l].n_Index[j];
-
-                in = sum_i (network->weights, index, network->values_Vect, network->n_Size);
-                network->values_Vect[index] = logistic(in);                
-            }
-        }        
-        errors[network->n_Size-1] = examples[e * 3 +3] - network->values_Vect[network->n_Size-1];
-        for(int l = network->l_Size-2; l>=0; --l)
-        {
-            for(size_t i = 0; i < network->Layers[l].n_Size; ++i)
-            {
-                index = network->Layers[l].n_Index[i];
-                errors[index] = network->values_Vect[index] * (1- network->values_Vect[index]) * sum_j(network->weights, index, errors, network->n_Size);            
-            }
-        }
-        for(size_t i = 0; i< network->n_Size; i++)
-        {
-            for(size_t j = 0; j< network->n_Size; j++)
-            {
-                if(network->weights[i * network->n_Size + j])
-                {
-                network->weights[i * network->n_Size + j] = network->weights[i * network->n_Size + j] + A * network->values_Vect[i] * errors[j];
-                }
-            }
-        }        
-        if(test%100 == 0)
-        {   
-            printf("\nTest %d \n \n",test);
-            printf("    Example %d / %d \n",e+1,sets_of_examples);
-
-            for(size_t t = 0; t<network->n_Size; t++)
-            {            
-                printf("Value[%d] = %lf \n",t,network->values_Vect[t]);            
-            }
-            
-            for(size_t t = 0; t<network->n_Size; t++)
-            {            
-                printf("Error[%d] = %lf \n",t,errors[t]);
-            }
-            
-            for(size_t i = 0; i<network->n_Size; i++)
-            {            
-                for(size_t j = 0; j<network->n_Size; j++)
-                {
-                if(network->weights[i * network->n_Size + j])
-                {
-                printf("weight [%d,%d] = %lf \n",j,i,network->weights[i*network->n_Size + j]);
-                }
-                }
-            }     
-        }        
-    }
-    test++;
-}
-while(test <= 100);
-}
-
-
-int main()
-{
-    srand48(time(NULL));
-    printf("SALUT \n");
-
-    int tab_L1[2] = {0,1};
-    int tab_L2[2] = {2,3};
-    int tab_L3[1] = {4};
+    struct neuron **n;
+    n = malloc(layers *sizeof(struct neuron *));
     
-    struct neuralLayer L1;
-    L1.n_Size = 2;    
-    L1.n_Index = tab_L1;
-    struct neuralLayer L2;
-    L2.n_Size = 2;
-    L2.n_Index = tab_L2;
-    struct neuralLayer L3;
-    L3.n_Size = 1;
-    L3.n_Index = tab_L3;
-
-    struct neuralLayer *Layers = malloc(3 * sizeof(struct neuralLayer));
-    Layers[0] = L1;
-    Layers[1] = L2;
-    Layers[2] = L3;
-
-    double vals[5] = {0};
-    double weights[5*5] = {0}; 
-    weights[2*5+0] = -1;   //drand48();
-    weights[2*5+1] =  1.5;   //drand48();
-    weights[3*5+0] =  2;   //drand48();
-    weights[3*5+1] = -2.5;  //drand48();
-    weights[4*5+2] = -3;  //drand48();
-    weights[4*5+3] =  3.5; //drand48();
-
-    struct neuralNetwork my_net;
-    my_net.l_Size = 3;
-    my_net.Layers = Layers;
-    my_net.n_Size = 5;
-    my_net.values_Vect = vals;
-    my_net.weights = weights;
-
-    //double examples2[4][3] = {{0,0,0},{0,1,1},{1,0,1},{1,1,0}};
-    double examples[4*3] ={0,0,0,0,1,1,1,0,1,1,1,0};
-
-    for(size_t i = 0; i<my_net.n_Size;i++)
+    for(int i = 0; i<layers;i++)
     {
-        printf("Neuron %d value = %lf \n",i,my_net.values_Vect[i]); 
+        n[i]= malloc(layers_Size[i] *sizeof(struct neuron));
     }
-    for(size_t i = 0; i<my_net.n_Size; i++)
+
+    for(int i = 0; i<layers-1;i++)
     {
-        for(size_t j = 0; j<my_net.n_Size; j++)
+        for(int j = 0; j<layers_Size[i]; j++)
         {
-            printf("weight [%d,%d] = %lf \n",(i * my_net.n_Size + j) % my_net.n_Size,i, my_net.weights[i * my_net.n_Size + j]);
+            n[i][j].w = malloc(layers_Size[i+1] * sizeof(float));
         }
     }
-
-    Back_Prop_Learning(4,examples,&my_net);
-
-/*
-    for(size_t i = 0; i<my_net.n_Size;i++)
-    {
-        printf("Neuron %d value = %lf \n",i+1,my_net.values_Vect[i]); 
-    }
-    for(size_t i = 0; i<my_net.n_Size; i++)
-    {
-        for(size_t j = 0; j<my_net.n_Size; j++)
-        {
-            printf("Weight n%d,n%d = %lf \n",i+1 , (i * my_net.n_Size + j) % my_net.n_Size+1, my_net.weights[i * my_net.n_Size + j]);
-        }
-    }
-*/  
-    return 0;
+    return n;
 }
+
+// Activation function
+
+
+float logistic(float x)
+{
+    if (fabs(x)<1e-10)
+        return 0.5;
+    else
+        return ( 1.0 / ( 1.0 + exp(-x)));
+}
+
+// Derivative
+
+float derivative(float x)
+{
+    return ( x * (1 - x) );
+}
+
+// Weights initialization
+
+void init_weights(struct neuron **n, int *layers_Size, int layers)
+{
+    int i, j, k;
+    int t;
+
+    time((time_t *)&t);
+    srand(t);
+
+    for(i=0;i<layers-1;i++)
+        for(j=0;j<layers_Size[i];j++)
+            for(k=0;k<layers_Size[i+1];k++)
+                n[i][j].w[k] = 1.0 * rand() / RAND_MAX * 1.0;
+}
+
+// Learning functions
+
+void init_inputs(struct neuron **n, int *example, int inputs)
+{
+    int i;
+
+    for(i=0;i<inputs;i++)
+        n[0][i].output = 1.0 * example[i];
+}
+
+void feedforward(struct neuron **n, int *layers_Size, int layers)
+{
+    int i, j, k;
+    float val;
+
+    for(i=1;i<layers;i++)
+    {
+        for(j=0;j<layers_Size[i];j++)
+        {
+            val = 0.0;
+          
+            for(k=0;k<layers_Size[i-1];k++)
+                val+=n[i-1][k].w[j] * n[i-1][k].output;
+            
+            n[i][j].output = logistic(val);
+        }
+    }
+}
+
+
+float final_error(struct neuron **n, int *example, int *layers_Size,int layers)
+{
+    int i;
+    float output_error = 0.0;
+    float Error;
+
+    for(i=0;i<layers_Size[layers-1];i++)
+    {
+        Error = (1.0 * example[layers_Size[0]+i]) - n[layers-1][i].output;
+        n[layers-1][i].error = Error * derivative(n[layers-1][i].output);
+        output_error += 0.5 * Error * Error;
+    }
+    return output_error;
+}
+
+
+void back_prop(struct neuron **n, int *layers_Size, int layers)
+{
+    int i, j, k;
+    float Error;
+
+    for(i=layers-2;i>0;i--)
+    {
+        for(j=0;j<layers_Size[i];j++)
+        {
+            Error = 0;
+           
+            for(k=0;k<layers_Size[i+1];k++)
+                Error+= n[i+1][k].error * n[i][j].w[k];
+            n[i][j].error = Error * derivative(n[i][j].output);
+        }
+    }
+}
+
+
+
+void weight_adjust(struct neuron **n, int *layers_Size, int layers)
+{
+    int i, j, k;
+
+
+    for(i=layers-2;i>=0;i--)
+        for(j=0;j<layers_Size[i];j++)
+            for(k=0;k<layers_Size[i+1];k++)
+                n[i][j].w[k]+= n[i+1][k].error * n[i][j].output;
+
+}
+ 
+
+ float calculate(struct neuron **n, int *example, int *layers_Size, int layers)
+ {
+    float Error;
+
+    init_inputs(n, example, layers_Size[0]);
+    feedforward(n, layers_Size, layers);
+    Error = final_error(n, example, layers_Size, layers);
+    back_prop(n, layers_Size, layers);
+    weight_adjust(n, layers_Size, layers);
+    
+    return Error;
+ }
+
+
+ void learn(struct neuron **n, int **examples, int *layers_Size, int layers,
+            int nb_ex)
+{
+    int i;
+    float Error;
+    long iter = 0;
+
+    do
+    {
+     iter++;
+     Error = 0.0;
+
+     for(i=0;i<nb_ex;i++)
+        Error += calculate(n, examples[i], layers_Size, layers);
+    }while( (Error>THRESHOLD * nb_ex) && (iter<(long)MAX_ITER) );
+}
+
+
+ // Display functions
+
+ void display_weights(struct neuron **n, int *layers_Size, int layers)
+ {
+   int i, j, k;
+
+   for(i=0;i<layers-1;i++)
+   {
+     printf("Layer # %d \n", i);
+     for(j=0;j<layers_Size[i];j++)
+     {
+       printf("  Neuron # %d \n    ", j+1);
+       for(k=0;k<layers_Size[i+1];k++)
+	 printf(" %2.4f ",n[i][j].w[k]);
+       printf("\n");
+     }
+   }
+ }
+
+
+ void display_outputs(struct neuron **n, int *layers_Size, int layers)
+ {
+   int i, j;
+   for(i=0;i<layers;i++)
+   {
+     printf("Layer # %d \n", i);
+     for(j=0;j<layers_Size[i];j++)
+     {
+       printf("     Neuron # %d   %f\n", j+1, n[i][j].output);
+     }
+   }
+ }
+
+
+ // Main function
+
+ int main()
+ {
+
+    int layers = 3;// Layers in the network (including input and output layers)
+    int layers_Size[] = {2,4,1} ;   // Size of each layer
+    
+    struct neuron **net;
+    int nb_ex = 4;  // Number of examples;
+
+    int e1[] = {0,0,0};
+    int e2[] = {0,1,1};
+    int e3[] = {1,0,1};
+    int e4[] = {1,1,0};
+
+    int *examples[] = {e1,e2,e3,e4};
+
+    net = new_network(layers, layers_Size);
+
+    init_weights(net, layers_Size, layers);
+    learn(net, examples, layers_Size, layers, nb_ex);
+  
+
+    for(int i = 0; i<nb_ex; i++)
+    {
+        init_inputs(net, examples[i], layers_Size[0]);
+        feedforward(net, layers_Size, layers);
+        printf("\n%d XOR %d = %f\n",examples[i][0], examples[i][1],
+            net[layers-1][layers_Size[layers-1]-1].output);
+    }
+    printf("\n");
+
+    return 0;
+ }

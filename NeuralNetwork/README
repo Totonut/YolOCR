@@ -1,6 +1,6 @@
-Réseau pas tout a fait fonctionnel, mais produit déjà des résultats (modif des valeurs de neurones cachés et des poids)
 
 Commandes pour tester le réseau de neurones :
 -> make (compiler le code)
 -> ./a.out (lancer le programme)
--> make clean ("décompiler" : effacer les fichiers générés par la compilation précédente)
+-> make clean ("décompiler" : effacer les fichiers générés par la compilation
+                précédente)
