@@ -11,6 +11,6 @@ struct newImage
 	GdkPixbuf* pixbuf;
 };
 void afficher_findchar();//SDL_Surface *image);
-void open_window(int argc, char* argv[], SDL_Surface* image);
+void open_window();
 
 #endif

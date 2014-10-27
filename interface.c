@@ -2,7 +2,7 @@
 #include <gtk/gtk.h>
 #include "interface.h"
 
-void open_window(int argc,char* argv[], SDL_Surface *image)
+void open_window()
 {
     GtkWidget *pWindow, *pVBox, *pHBox, *pImage, *pImage2;
 	GdkPixbuf *pixbuf, *pixbuf2;
@@ -64,7 +64,7 @@ void afficher_findchar()
 		
 
 }
-void on_copier_button(GtkWidget *pButton, gpointer data)
+void on_copier_button(gpointer data)
 {
     GtkWidget *pTempEntry;
     GtkWidget *pTempLabel;

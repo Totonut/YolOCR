@@ -12,15 +12,10 @@
 	#include "SDL/SDL_image.h"
 #endif	
 
-unsigned* findChar(SDL_Surface* ecran);
-void drawLine(SDL_Surface* ecran, unsigned line);
-unsigned findLines(SDL_Surface* ecran, unsigned *buffer);
-unsigned* findChars(SDL_Surface* ecran, unsigned* lines, unsigned size);
-void drawChar(SDL_Surface* ecran, unsigned x, unsigned y, unsigned w, unsigned h);
-//int is_linked_pixel(unsigned* buffer1, unsigned* buffer2, size_t size, int i, int add);
-//int is_linked(unsigned* buffer1, unsigned* buffer2, size_t size);
-//void empty(unsigned* buffer, size_t lineHeight);
-//void initialize(unsigned* buffer, size_t size);
+unsigned* find_char(SDL_Surface* screen);
+void draw_line(SDL_Surface* screen, unsigned line);
+unsigned find_lines(SDL_Surface* screen, unsigned *buffer);
+void draw_char(SDL_Surface* screen, unsigned x, unsigned y, unsigned w, unsigned h, Uint32 color);
 
 
 #endif

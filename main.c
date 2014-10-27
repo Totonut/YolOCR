@@ -16,9 +16,9 @@ int main(int argc, char *argv[])
 		image = IMG_Load("image.jpg");
 	SDL_SaveBMP(image, "image.bmp");
 	perfectImage(image);
-	findChar(image);
+	find_char(image);
 	SDL_SaveBMP(image, "image2.bmp");
-	open_window(argc, argv, image);
+	open_window();
 	
 	SDL_FreeSurface(image);	
 	
