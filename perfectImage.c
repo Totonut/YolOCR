@@ -30,7 +30,8 @@ void perfectImage(SDL_Surface* screen)
 Uint32 getPix(SDL_Surface *surface, int x, int y)
 {
 	int nbOctPerPix = surface->format->BytesPerPixel;
-	Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * nbOctPerPix;
+	Uint8 *p = (Uint8 *)surface->pixels 
+		+ y * surface->pitch + x * nbOctPerPix;
 
 	switch(nbOctPerPix)
 	{
@@ -55,7 +56,8 @@ Uint32 getPix(SDL_Surface *surface, int x, int y)
 void setPix(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
 	int nbOctPerPix = surface->format->BytesPerPixel;
-	Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * nbOctPerPix;
+	Uint8 *p = (Uint8 *)surface->pixels 
+		+ y * surface->pitch + x * nbOctPerPix;
 	switch(nbOctPerPix)
 	{
 		case 1:
