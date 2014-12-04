@@ -1,11 +1,11 @@
 
 
-SRC = neuralNetwork.c
-OBJ = neuralNetwork.o
+SRC = neuralNetwork.c perfectImage.c
+OBJ = neuralNetwork.o perfectImage.o
 EXE = a.out
 
 CC = clang 
-CFLAGS = -Wall -Wextra -Werror -std=c99
+CFLAGS = -Wall -Wextra -std=c99 -lSDLmain -lSDL -lSDL_image -lSDL_ttf
 
 
 all: main

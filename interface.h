@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include "findchar.h"
+#include "findChar.h"
 void afficher_findchar();
 void open_window();
 
