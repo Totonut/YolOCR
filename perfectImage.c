@@ -1,19 +1,19 @@
 #include "perfectImage.h"
 
-void perfectImage(SDL_Surface* ecran)
+void perfectImage(SDL_Surface* screen)
 {
 	Uint32 pixel = 0;
 	Uint8 r = 0, g = 0, b = 0;
-	for (int i=0; i<ecran->w;i++)
+	for (int i=0; i<screen->w;i++)
 	{
-		for (int j=0; j<ecran->h;j++)
+		for (int j=0; j<screen->h;j++)
 		{
-			pixel = obtenirPixel(ecran, i, j);
+			pixel = getPix(screen, i, j);
 
 			r = (pixel & 0x000000ff);
 			g = (pixel & 0x0000ff00) >> 8;
 			b = (pixel & 0x00ff0000) >> 16;
-			if (r + g + b > 384)
+			if (0.3*r + 0.58*g + 0.11*b > 128)
 			{
 				pixel =  0x00ffffff;
 			} 
@@ -21,18 +21,19 @@ void perfectImage(SDL_Surface* ecran)
 			{
 				pixel =  0x00000000;
 			} 
-			definirPixel(ecran, i, j, pixel);
+			setPix(screen, i, j, pixel);
 		}
 	}
 
 }
 
-Uint32 obtenirPixel(SDL_Surface *surface, int x, int y)
+Uint32 getPix(SDL_Surface *surface, int x, int y)
 {
-	int nbOctetsParPixel = surface->format->BytesPerPixel;
-	Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * nbOctetsParPixel;
+	int nbOctPerPix = surface->format->BytesPerPixel;
+	Uint8 *p = (Uint8 *)surface->pixels 
+		+ y * surface->pitch + x * nbOctPerPix;
 
-	switch(nbOctetsParPixel)
+	switch(nbOctPerPix)
 	{
 		case 1:
 			return *p;
@@ -52,11 +53,12 @@ Uint32 obtenirPixel(SDL_Surface *surface, int x, int y)
 	}
 }
 
-void definirPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+void setPix(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
-	int nbOctetsParPixel = surface->format->BytesPerPixel;
-	Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * nbOctetsParPixel;
-	switch(nbOctetsParPixel)
+	int nbOctPerPix = surface->format->BytesPerPixel;
+	Uint8 *p = (Uint8 *)surface->pixels 
+		+ y * surface->pitch + x * nbOctPerPix;
+	switch(nbOctPerPix)
 	{
 		case 1:
 			*p = pixel;

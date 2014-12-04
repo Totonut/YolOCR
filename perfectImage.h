@@ -11,8 +11,8 @@
 	#include "SDL/SDL_image.h"
 #endif		
 
-void perfectImage(SDL_Surface* ecran);
-Uint32 obtenirPixel(SDL_Surface *surface, int x, int y);
-void definirPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
+void perfectImage(SDL_Surface* screen);
+Uint32 getPix(SDL_Surface *surface, int x, int y);
+void setPix(SDL_Surface *surface, int x, int y, Uint32 pixel);
 
 #endif
