@@ -155,6 +155,6 @@ void draw_char(SDL_Surface* screen, unsigned x, unsigned y, unsigned w,
 unsigned ** find_char(SDL_Surface* screen)
 {
     unsigned* buffer = malloc(screen->w*sizeof(unsigned));
-    return transformPix(find_chars(screen, buffer, find_lines(screen, buffer)), screen);
-//    return find_chars(screen, buffer, find_lines(screen, buffer));
+    //return transformPix(find_chars(screen, buffer, find_lines(screen, buffer)), screen);
+    return find_chars(screen, buffer, find_lines(screen, buffer));
 }
