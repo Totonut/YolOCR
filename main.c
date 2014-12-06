@@ -3,10 +3,16 @@
 #include "findChar.h"
 #include "interface.h"
 #include "interface.c"
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <SDL/SDL.h>
 
 int main(int argc, char *argv[])
 {
-	
+#ifdef Q_WS_X11
+    qputenv("LIBOVERLAY_SCROLLBAR", 0);
+#endif	
     gtk_init(&argc, &argv);
     SDL_Surface *image = NULL;
 
