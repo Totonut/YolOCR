@@ -6,7 +6,7 @@
 #include <strings.h>
 
 
-int *transformPix(int *tabPix, SDL_Surface *screen);
+unsigned int **transformPix(unsigned int *tabPix, SDL_Surface *screen);
 
 
 #endif
