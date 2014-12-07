@@ -3,11 +3,11 @@
 //#include"../perfectImage.h"
 
 
-const float THRESHOLD = 0.01;  // Average permissible output error
+const double THRESHOLD = 0.01;  // Average permissible output error
 const long MAX_ITER = 10000;  // Max iter while learning
 
 
-struct neuron **new_network(int layers, int *layers_Size)
+struct neuron **new_network(int *layers_Size, int layers)
 {
     struct neuron **n;
     n = malloc(layers *sizeof(struct neuron *));
@@ -21,7 +21,7 @@ struct neuron **new_network(int layers, int *layers_Size)
     {
         for(int j = 0; j<layers_Size[i]; j++)
         {
-            n[i][j].w = malloc(layers_Size[i+1] * sizeof(float));
+            n[i][j].w = malloc(layers_Size[i+1] * sizeof(double));
         }
     }
     return n;
@@ -30,7 +30,7 @@ struct neuron **new_network(int layers, int *layers_Size)
 // Activation function
 
 
-float logistic(float x)
+double logistic(double x)
 {
     if (fabs(x)<1e-10)
         return 0.5;
@@ -40,7 +40,7 @@ float logistic(float x)
 
 // Derivative
 
-float derivative(float x)
+double derivative(double x)
 {
     return ( x * (1 - x) );
 }
@@ -59,7 +59,7 @@ void init_weights(struct neuron **n, int *layers_Size, int layers)
         for(j=0;j<layers_Size[i];j++)
             for(k=0;k<layers_Size[i+1];k++)
                 {
-                  float sign = 1.0;
+                  double sign = 1.0;
                   if((1.0 * rand() / RAND_MAX * 1.0) > 0.5)
                     sign = -1.0;
                   n[i][j].w[k] = sign * 0.5 *((1.0 * rand()) / (RAND_MAX * 1.0));
@@ -76,7 +76,7 @@ void init_inputs(struct neuron **n, int *example, int inputs)
 
 void feedforward(struct neuron **n, int *layers_Size, int layers)
 {
-    float val;
+    double val;
 
     for(int l=1; l<layers; l++)
     {
@@ -93,10 +93,10 @@ void feedforward(struct neuron **n, int *layers_Size, int layers)
 }
 
 
-float final_error(struct neuron **n, int **example, int *layers_Size,int layers)
+double final_error(struct neuron **n, int **example, int *layers_Size,int layers)
 {
-    float output_error = 0.0;
-    float Error;
+    double output_error = 0.0;
+    double Error;
 
     for(int i=0;i<layers_Size[layers-1];i++)
     {
@@ -110,7 +110,7 @@ float final_error(struct neuron **n, int **example, int *layers_Size,int layers)
 
 void back_prop(struct neuron **n, int *layers_Size, int layers)
 {
-    float Error;
+    double Error;
 
     for(int i=layers-2;i>0;i--)
     {
@@ -129,7 +129,7 @@ void back_prop(struct neuron **n, int *layers_Size, int layers)
 
 void weight_adjust(struct neuron **n, int *layers_Size, int layers)
 {
-    float A = 0.5;
+    double A = 0.5;
 
     for(int i=layers-2;i>=0;i--)
         for(int j=0;j<layers_Size[i];j++)
@@ -139,9 +139,9 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
 }
  
 
- float calculate(struct neuron **n, int **example, int *layers_Size, int layers)
+double calculate(struct neuron **n, int **example, int *layers_Size, int layers)
  {
-    float Error;
+    double Error;
 
     init_inputs(n, example[0], layers_Size[0]);
     feedforward(n, layers_Size, layers);
@@ -156,8 +156,7 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
  void learn(struct neuron **n, int ***examples, int *layers_Size, int layers,
             int nb_ex)
 {
-    //int i;
-    float Error;
+    double Error;
     long iter = 0;
 
     do
@@ -203,6 +202,7 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
    }
  }
 
+// Other functions
 
  
 
@@ -236,7 +236,7 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
     for(int i=0;i<layers-1;i++)
       for(int j=0;j<layers_Size[i];j++)
         for(int k=0;k<layers_Size[i+1];k++)
-          if(fscanf(file, "%f", &(n[i][j].w[k])) != EOF);
+          if(fscanf(file, "%lf", &(n[i][j].w[k])) != EOF);
      
      fclose(file);
   }
@@ -317,6 +317,34 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
     return e; 
   }
 
+/*
+  struct neuron** creat_network(int *layers_Size, int layers)
+  {
+    struct neuron **net = new_network(layers_Size, layers);
+    init_weights(net, layers_Size, layers);
+
+    return net;
+  }
+*/
+
+  char comput(struct neuron **net, int *inputs, int *layers_Size, int layers, char *chars)
+  {    
+    init_inputs(net, inputs, layers_Size[0]);
+    feedforward(net, layers_Size, layers);
+           
+    float max = 0;
+    int id = 0;
+    for(int i = 0; i<layers_Size[layers-1]; i++)
+    {
+      if(net[layers-1][i].output > max)
+      {
+        max = net[layers-1][i].output;
+        id = i;
+      }
+    }
+    return chars[id];
+  }
+
   // Main
 
  int main()
@@ -336,7 +364,7 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
   SDL_Surface *im8 = IMG_Load("ex/8.jpg");
   SDL_Surface *im9 = IMG_Load("ex/9.jpg");
 
-/*
+  /*
   //test
   SDL_Surface *test0 = IMG_Load("test/0.jpg");
   SDL_Surface *test1 = IMG_Load("test/1.jpg");
@@ -348,9 +376,9 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
   SDL_Surface *test7 = IMG_Load("test/7.jpg");
   SDL_Surface *test8 = IMG_Load("test/8.jpg");
   SDL_Surface *test9 = IMG_Load("test/9.jpg");
-*/
-  printf("\nChargement images OK\n");
-  
+  */
+
+
   // ex
   int *inputs0 = malloc(in_size*sizeof(int));
   int *inputs1 = malloc(in_size*sizeof(int));
@@ -378,34 +406,6 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
   //ex
   int *inputs[] = {inputs0,inputs1,inputs2,inputs3,inputs4,inputs5,inputs6,inputs7,inputs8,inputs9};
 
-  printf("\nInit inputs OK\n");
-
-  /*
-  int *out0 = calloc(ou_size,sizeof(int)); 
-  int *out1 = calloc(ou_size,sizeof(int)); 
-  int *out2 = calloc(ou_size,sizeof(int)); 
-  int *out3 = calloc(ou_size,sizeof(int)); 
-  int *out4 = calloc(ou_size,sizeof(int)); 
-  int *out5 = calloc(ou_size,sizeof(int)); 
-  int *out6 = calloc(ou_size,sizeof(int)); 
-  int *out7 = calloc(ou_size,sizeof(int)); 
-  int *out8 = calloc(ou_size,sizeof(int)); 
-  int *out9 = calloc(ou_size,sizeof(int));
-
-  out0[0] = 1;
-  out1[1] = 1;
-  out2[2] = 1;
-  out3[3] = 1;
-  out4[4] = 1;
-  out5[5] = 1;
-  out6[6] = 1;
-  out7[7] = 1;
-  out8[8] = 1;
-  out9[9] = 1;
-
-  printf("\nInit out OK\n");
-  */
-
   /*
   char *chars =   "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "abcdefghijklmnopqrstuvwxyz"
@@ -420,55 +420,36 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
   struct neuron **net;
   int nb_ex = 10;  // Number of examples;
 
+
+  //net = creat_network(layers_Size, layers);
+
+  net = new_network(layers_Size, layers);
+
+/*
+// Learn and save
   writeEx();
   for(int i = 0; i<nb_ex; i++)
     writeNewEx(inputs[i], i%ou_size, layers_Size, layers);
-
-  /*
-  int *e0[] = {inputs0, out0};
-  int *e1[] = {inputs1, out1};
-  int *e2[] = {inputs2, out2};
-  int *e3[] = {inputs3, out3};
-  int *e4[] = {inputs4, out4};
-  int *e5[] = {inputs5, out5};
-  int *e6[] = {inputs6, out6};
-  int *e7[] = {inputs7, out7};
-  int *e8[] = {inputs8, out8};
-  int *e9[] = {inputs9, out9};
-  
-  int **examples[] = {e0,e1,e2,e3,e4,e5,e6,e7,e8,e9};
-  */
-
   int ***examples = readEx(nb_ex, layers_Size, layers);
-
-  printf("\nInit exemples OK\n");
-
-  net = new_network(layers, layers_Size); 
-  printf("\nNetwork création OK\n");
-
-  init_weights(net, layers_Size, layers);
-  printf("\nInit_weights OK\n"); 
-
-
-
   learn(net, examples, layers_Size, layers, nb_ex);
-  printf("\nLearn OK\n");
-
   save(net,layers_Size, layers);
-  printf("\nSave OK\n");
-
-/*
-  load(net, layers_Size, layers);
-  printf("\nLoad OK\n");
 */
+
+// Load
+  load(net, layers_Size, layers);
+
 
   printf("Examples :\n");
   for(int e = 0; e<nb_ex; e++)
   {    
     //init_inputs(net, examples[e][0], layers_Size[0]);
+    
+    char ans = comput(net, inputs[e], layers_Size, layers, chars);
+    /*
     init_inputs(net, inputs[e], layers_Size[0]);
     feedforward(net, layers_Size, layers);
-    
+    */
+
     /*
     printf("\nInputs %d :\n",e);
     for(int i = 1; i<=layers_Size[0]; i++)
@@ -481,16 +462,18 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
     
     
     printf("\nOutputs %d :\n",e);
+    printf("Ans : %c\n",ans);
+    /*
     for(int i = 0; i<layers_Size[layers-1]; i++)
     {
       if(net[layers-1][i].output > 0.5)
-        printf("Ans : %c\n",chars[i]);
-      //printf("Out[%d] = %f : %d\n", i, net[layers-1][i].output, net[layers-1][i].output > 0.5);
+        printf("Ans : %c\n", chars[i]);
+     // printf("Out[%d] = %f : %d\n", i, net[layers-1][i].output, net[layers-1][i].output > 0.5);
     }
-    
+    */
   }
 
-  /*
+  /* 
   // TESTS
 
   get_inputs(test0, inputs0); 
@@ -504,21 +487,30 @@ void weight_adjust(struct neuron **n, int *layers_Size, int layers)
   get_inputs(test8, inputs8); 
   get_inputs(test9, inputs9);
   
-  printf("Tests :\n");
+  printf("\nTests :\n");
   for(int e = 0; e<10; e++)
   {
     init_inputs(net, inputs[e], layers_Size[0]);
     feedforward(net, layers_Size, layers);
     
     printf("\nOutputs %d :\n",e);
+    float max = 0;
+    int maxId = 0;
     for(int i = 0; i<layers_Size[layers-1]; i++)
     {
       //if(net[layers-1][i].output > 0.5)
         //printf("Ans : %d\n",i);
-      printf("Out[%d] = %f : %d\n", i, net[layers-1][i].output, net[layers-1][i].output > 0.5);
+      if(net[layers-1][i].output > max)
+      {
+        max = net[layers-1][i].output;
+        maxId = i;
+      }
+      //printf("Out[%d] = %f : %d\n", i, net[layers-1][i].output, net[layers-1][i].output > 0.5);
     }
+    printf("Ans : %d : %f\n",maxId, max);
   }
   */
+  
 
 
   printf("\n");
