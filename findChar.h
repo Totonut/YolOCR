@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL/SDL.h>
+#include "tabPix.h"
 #include "perfectImage.h"
 #include <string.h>
 #ifdef __APPLE__
