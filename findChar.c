@@ -28,15 +28,16 @@ unsigned find_lines(SDL_Surface* screen, unsigned *buffer)
     return count;
 } 
 
-unsigned* find_chars(SDL_Surface* screen, unsigned* lines, unsigned size)
+int* find_chars(SDL_Surface* screen, unsigned* lines, unsigned size)
 {
-    unsigned *buffer = malloc(screen->w*size*2*sizeof(unsigned));
-    unsigned i = 1, max=0, min=0, maxw=0,
+    int *buffer = malloc(screen->w*size*2*sizeof(int));
+    unsigned i = 1;
+    int max=0, min=0, maxw=0,
 	     minw=0, x=0, found = 0, write=0, count=0,
 	     moy=0, total_length=0, number_space=0, number_found=0;
-    unsigned width=(unsigned)screen->w;
-    unsigned prev = 0;
-    unsigned next = 0;
+    int width=screen->w;
+    int prev = 0;
+    int next = 0;
     if (lines != NULL)
     {
 	prev = 0;
@@ -48,7 +49,7 @@ unsigned* find_chars(SDL_Surface* screen, unsigned* lines, unsigned size)
 	    number_found=0;
 	    prev=next;
 	    next = lines[i];
-	    for (unsigned j=0;j<width;++j)
+	    for (int j=0;j<width;++j)
 	    {
 		moy=0;
 		if (!found && write)
@@ -65,7 +66,7 @@ unsigned* find_chars(SDL_Surface* screen, unsigned* lines, unsigned size)
 		    total_length+=maxw-minw;	
 		}
 		found=0;
-		for (unsigned k=prev;k<next;++k)
+		for (int k=prev;k<next;++k)
 		{
 		    if (getPix(screen, j, k)
 			    ==0x00000000)
@@ -152,9 +153,27 @@ void draw_char(SDL_Surface* screen, unsigned x, unsigned y, unsigned w,
 }
 
 
-unsigned * find_char(SDL_Surface* screen)
+int *find_char(SDL_Surface* screen)
 {
-    unsigned* buffer = malloc(screen->w*sizeof(unsigned));
-    //return transformPix(find_chars(screen, buffer, find_lines(screen, buffer)), screen);
-    return find_chars(screen, buffer, find_lines(screen, buffer));
+    unsigned *buffer = malloc(screen->w*sizeof(int));
+    unsigned lines = find_lines(screen, buffer);
+    int *chars = find_chars(screen, buffer, lines);
+    
+    unsigned size = screen->w*lines;
+    //return *transformPix(find_chars(screen, buffer, find_lines(screen, buffer)), screen);
+    for(unsigned i=0; i<size; i+=4)
+    {
+      printf("\nDébut OK\n");
+      printf("chars[%d] = %d\n",i, chars[i]);
+      printf("chars[%d] = %d\n",i+1, chars[i+1]);
+      printf("chars[%d] = %d\n",i+2, chars[i+2]);
+      printf("chars[%d] = %d\n",i+3, chars[i+3]);
+      if(chars[i+2] != -2)
+        transformPix2(chars[i], chars[i+1], chars[i+2], chars[i+3], screen);
+      printf("Fin OK\n");
+    }
+    printf("END\n");
+    
+    return chars;
+    //return find_chars(screen, buffer, find_lines(screen, buffer));
 }
