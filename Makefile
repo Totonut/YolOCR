@@ -1,21 +1,20 @@
-
 #
 # Variables:
 #
 CC = clang
-BIN =yolOCR
+BIN = YolOCR
 SRC = $(wildcard *.c) 
-OBJ =$(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
 
 #
 # Flags d'erreurs:
 #
-ERROR_FLAGS = -Wall -Wextra  -std=c99
+ERROR_FLAGS = -Wall -Wextra -std=c99
 
 #
 # Flags pour le compilateur:
 #
-GTK_CFLAGS = $$( pkg-config --cflags  gtk+-2.0)
+GTK_CFLAGS = $$(pkg-config --cflags gtk+-2.0)
 
 CFLAGS = $(ERROR_FLAGS) $(GTK_CFLAGS)
 
@@ -23,19 +22,21 @@ CFLAGS = $(ERROR_FLAGS) $(GTK_CFLAGS)
 #
 # Flags pour l'editeur de liens:
 #
-GTK_LDFLAGS = $$( pkg-config --libs gtk+-2.0)
+GTK_LDFLAGS = $$(pkg-config --libs gtk+-2.0)
 
 LDFLAGS = $(ERROR_FLAGS) $(GTK_LDFLAGS)
-LDLIBS=$$(pkg-config --libs gtk+-2.0)
+
 
 #
 # Construction du programme:
 #
-all:$(BIN)
+all: $(BIN)
 
 $(BIN): $(SRC)
 	$(CC) $(CFLAGS) -c $(SRC)
-	$(CC) $(LDFLAGS) -lSDLmain -lSDL -lSDL_image -o $(BIN) $(OBJ) -lm  findChar.c perfectImage.c interface.c tabPix.c
+	$(CC) $(LDFLAGS) -lSDLmain -lSDL -lSDL_image -lSDL_ttf -o $(BIN) $(OBJ) -lm
+
+
 #
 # Nettoyage:
 #

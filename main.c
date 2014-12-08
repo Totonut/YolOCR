@@ -1,8 +1,7 @@
 #include "constantes.h"
 #include "perfectImage.h"
 #include "interface.h"
-#include "findChar.c"
-#include "interface.c"
+#include "findChar.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,7 +21,7 @@ int main(int argc, char *argv[])
 	perfectImage(image);
  	find_char(image);
 	SDL_SaveBMP(image, "image2.bmp");
-    create_window();
+    	create_window();
 		SDL_FreeSurface(image);	
 	
 	SDL_Quit();
