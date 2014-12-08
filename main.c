@@ -1,18 +1,16 @@
 #include "constantes.h"
 #include "perfectImage.h"
-#include "findChar.h"
 #include "interface.h"
+#include "findChar.c"
 #include "interface.c"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL/SDL.h>
 
+
 int main(int argc, char *argv[])
-{
-
-	int count =0;
-
+{	
     gtk_init(&argc, &argv);
     SDL_Surface *image = NULL;
 
@@ -22,7 +20,7 @@ int main(int argc, char *argv[])
 		image = IMG_Load("image.jpg");
 	SDL_SaveBMP(image, "image.bmp");
 	perfectImage(image);
-	find_char(image);
+ 	find_char(image);
 	SDL_SaveBMP(image, "image2.bmp");
     create_window();
 		SDL_FreeSurface(image);	

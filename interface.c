@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <gtk/gtk.h>
+//#include <gtk/gtk.h>
 #include "interface.h"
 
 static void menu_new (void);

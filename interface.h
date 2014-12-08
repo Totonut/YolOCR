@@ -12,7 +12,7 @@ struct newImage
 	SDL_Surface* image;
 	GdkPixbuf* pixbuf;
 };
-void afficher_findchar();//SDL_Surface *image);
+void on_copier_button(gpointer data);
 void open_window();
 
 #endif
