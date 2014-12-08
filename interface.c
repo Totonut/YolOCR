@@ -1,6 +1,7 @@
 #include <stdlib.h>
 //#include <gtk/gtk.h>
 #include "interface.h"
+#include <strings.h>
 
 GtkWidget *pWindow;
 GtkWidget *p_vBox;
@@ -111,7 +112,7 @@ void open_image (gchar * sChemin, GtkWidget *p_vBox)
 }
 
 static void Binarize (void) {
-    open_image("image.bmp",p_hBox);
+    open_image("image2.bmp",p_hBox);
 }
 
 
@@ -276,6 +277,18 @@ static void menu_about (void)
 
 void afficher_findchar()
 {
+/*
+    int in_size = 256;
+    int ou_size = 88;
+
+    char *chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+=/%()[]éèàùëêç.,;:?!&@$€";
+    int layers = 4;
+    int layers_Size[] = {in_size, 2*in_size, in_size, ou_size};
+
+    struct neuron **net = load_network(layers_Size, layers);
+   
+*/
+
     open_image("image3.bmp",p_hBox);
     GtkWidget *pWindow, *pVBox,*view;
     pWindow= gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -283,6 +296,13 @@ void afficher_findchar()
     g_signal_connect(G_OBJECT(pWindow), "delete-event",
 	    G_CALLBACK(gtk_widget_hide_on_delete),G_OBJECT(pWindow));
     view = gtk_text_view_new(); 
+    GtkTextBuffer* buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(view));
+    GtkTextIter end;
+    gtk_text_buffer_get_end_iter(buffer, &end);
+    const char* res = find();
+    int n = strlen(res);
+    printf("%d\n", n);
+    gtk_text_buffer_insert(buffer, &end, res, -1);
     pVBox = gtk_vbox_new(TRUE, 0);
     gtk_container_add(GTK_CONTAINER(pWindow), pVBox);
     gtk_box_pack_start(GTK_BOX(pVBox), view, TRUE, TRUE, 0);
