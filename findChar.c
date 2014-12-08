@@ -164,9 +164,10 @@ void draw_char(SDL_Surface* screen, unsigned x, unsigned y, unsigned w,
 }
 
 
-char *find_char(SDL_Surface* screen, struct neuron **net, int *layers_Size, int layers, char *chars)
+//char *find_char(SDL_Surface* screen, struct neuron **net, int *layers_Size, int layers, char *chars)
+char *find_char(SDL_Surface* screen)
 {
-/*
+
   int in_size = 256;
   int ou_size = 88;
 
@@ -175,7 +176,7 @@ char *find_char(SDL_Surface* screen, struct neuron **net, int *layers_Size, int 
   int layers_Size[] = {in_size, 2*in_size, in_size, ou_size};
 
   struct neuron **net = load_network(layers_Size, layers);
-  */
+  
 
   unsigned nb_lines = 0;
   unsigned *lines = find_lines(screen, &nb_lines);

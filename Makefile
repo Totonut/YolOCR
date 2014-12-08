@@ -9,7 +9,7 @@ OBJ = $(SRC:.c=.o)
 #
 # Flags d'erreurs:
 #
-ERROR_FLAGS = -Wall -Wextra -Werror -std=c99
+ERROR_FLAGS = -Wall -Wextra -std=c99
 
 #
 # Flags pour le compilateur:
