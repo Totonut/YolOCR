@@ -14,9 +14,12 @@
     <toolitem action="NouveauAction" />
     <toolitem action="OuvrirAction" />
     <toolitem action="QuitterAction" />
-    <separator />
+	<separator />
+	<toolitem action="Rotation"/>
+	<toolitem action="Binarize"/>
+	<separator/>
     <toolitem action="AideAction" />
-    <toolitem action="AproposAction" />
+	<toolitem action="AproposAction" />
   </toolbar>
 </ui>
 

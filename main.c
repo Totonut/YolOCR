@@ -10,9 +10,9 @@
 
 int main(int argc, char *argv[])
 {
-#ifdef Q_WS_X11
-    qputenv("LIBOVERLAY_SCROLLBAR", 0);
-#endif	
+
+	int count =0;
+
     gtk_init(&argc, &argv);
     SDL_Surface *image = NULL;
 
@@ -24,9 +24,8 @@ int main(int argc, char *argv[])
 	perfectImage(image);
 	find_char(image);
 	SDL_SaveBMP(image, "image2.bmp");
-	open_window();
-	
-	SDL_FreeSurface(image);	
+    create_window();
+		SDL_FreeSurface(image);	
 	
 	SDL_Quit();
 	return 0;

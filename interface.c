@@ -3,148 +3,228 @@
 #include "interface.h"
 
 static void menu_new (void);
-static void menu_open (void);
+static gchar * menu_open (void);
 static void menu_quit (void);
 static void menu_help (void);
 static void menu_about (void);
-static void menu_addWidget ( GtkWidget *, GtkContainer *);
+static void menu_addWidget (GtkUIManager *,GtkWidget *, GtkContainer *);
 void main2();
-
+void factorize(GtkWidget *p_vBox);
+void open_image(gchar *sChemin ,GtkWidget *p_vBox);
+GtkWidget *pWindow;
+GtkWidget *p_vBox;
+GtkWidget *p_hBox;
+static void Binarize (void);
 // $  gcc $(pkg-config --libs --cflags gtk+-2.0) main.c -o nom    
 
-void open_window()
+void create_window() //gchar *sChemin)
 {
-    GtkWidget *pWindow,  *pHBox, *pImage, *pImage2;
-	GdkPixbuf *pixbuf, *pixbuf2;
+   	p_hBox=gtk_hbox_new(FALSE,0);
+	
 	GtkWidget *buttonFindChar;
-    
+	GdkDisplay *display = gdk_display_get_default();
+   GdkScreen *screen = gdk_display_get_screen(display, 0);
+int 	screen_width = gdk_screen_get_width(screen);
+int 	screen_height = gdk_screen_get_height(screen);
 	GError *error=NULL;
  
     pWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(pWindow), "GtkImage");
-    g_signal_connect(G_OBJECT(pWindow), "destroy", G_CALLBACK(gtk_main_quit),
+   g_signal_connect(G_OBJECT(pWindow), "destroy", G_CALLBACK(gtk_main_quit),
 			NULL);
+	p_vBox = gtk_vbox_new (FALSE, 0);
 
-		
- 	pHBox= gtk_hbox_new(FALSE,8);
-   // pVBox = gtk_vbox_new(FALSE, 8);
-    //gtk_container_add(GTK_CONTAINER(pWindow), pVBox);
- 	gtk_container_add(GTK_CONTAINER(pWindow),pHBox);
-	pixbuf2=gdk_pixbuf_new_from_file("image2.bmp", &error);
-	pixbuf = gdk_pixbuf_new_from_file ("image.bmp", &error); 
-    GdkPixbuf *pixbuf_mini = NULL; 
-	GdkPixbuf *pixbuf_mini2=NULL;
-	pixbuf_mini2=gdk_pixbuf_scale_simple(pixbuf2,625,450,
-	GDK_INTERP_NEAREST);
-    pixbuf_mini = gdk_pixbuf_scale_simple (pixbuf,625, 450, 
-            GDK_INTERP_NEAREST); 
-    pImage2=gtk_image_new_from_pixbuf(pixbuf_mini2);
-    pImage = gtk_image_new_from_pixbuf (pixbuf_mini);
-    buttonFindChar = gtk_button_new_with_label("FindChar");
-    g_signal_connect(G_OBJECT(buttonFindChar), "clicked",
-			  G_CALLBACK(afficher_findchar), NULL);
-
-
-
-    main2(pWindow);
- 	gtk_container_set_border_width (GTK_CONTAINER (pWindow), 10);
-	gtk_window_set_default_size(GTK_WINDOW(pWindow), 200, 200);
-    gtk_window_move(GTK_WINDOW(pWindow),  0,  600);
-	gtk_box_pack_start(GTK_BOX(pHBox), pImage, FALSE, TRUE, 0);
-	
-    gtk_box_pack_start(GTK_BOX(pHBox), buttonFindChar, FALSE,TRUE , 0);
-	gtk_box_pack_start(GTK_BOX(pHBox),pImage2,FALSE,TRUE,0);
-	//gtk_box_pack_start(GTK_BOX(pVBox),pHBox,FALSE,TRUE,0);
-	    gtk_widget_show_all(pWindow);
-
-    gtk_main();
- 
-}
-
-void main2 (GtkWidget *p_window)
-{
-  // GtkWidget *p_window = NULL;
-   GtkWidget *p_vBox = NULL;
    GtkUIManager *p_uiManager = NULL;
    GtkActionGroup *p_actionGroup = NULL;
    GtkActionEntry entries[] = {
       {"FichierMenuAction", NULL, "Fichier", NULL, NULL, NULL},
-      {"NouveauAction", GTK_STOCK_NEW, "Nouveau", "<Control>N", "Nouveau",
-       G_CALLBACK (menu_new)},
+      {"NouveauAction", GTK_STOCK_SAVE_AS, "Enregistrer", "<Control>N", "Enregistrer", G_CALLBACK (menu_new)},
       {"OuvrirAction", GTK_STOCK_OPEN, "Ouvrir", "<Control>O", "Ouvrir",
-       G_CALLBACK (menu_open)},
+      G_CALLBACK(menu_open)}, 
       {"QuitterAction", GTK_STOCK_QUIT, "Quitter", "<control>Q", "Quitter",
        G_CALLBACK (menu_quit)},
       {"AideMenuAction", NULL, "Aide", NULL, NULL, NULL},
       {"AideAction", GTK_STOCK_HELP, "Aide", "<Release>F1", "Aide",
        G_CALLBACK (menu_help)},
       {"AproposAction", GTK_STOCK_ABOUT, "A propos", "<Control>A", "About",
-       G_CALLBACK (menu_about)}
+       G_CALLBACK (menu_about)},
+	  {"Rotation", GTK_STOCK_ABOUT, "Rotation", "<Control>A", "Rotation",
+       G_CALLBACK (menu_about)},
+	  {"Binarize",GTK_STOCK_INDENT, "Binarize","<Control>B","Binarize",G_CALLBACK(Binarize)}
    };
-/* Initialisation */
-  // gtk_init (&argc, &argv);
-/* Creation de la fenetre principale */
-   //p_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-   gtk_window_set_title (GTK_WINDOW (p_window),
-                         "Coucou Nico");
-//   g_signal_connect (G_OBJECT (p_window), "destroy",
-  //                   G_CALLBACK (gtk_main_quit), NULL);
-/* Creation d'une vBox */
-   p_vBox = gtk_vbox_new (FALSE, 0);
-   gtk_container_add (GTK_CONTAINER (p_window), p_vBox);
-/* Creation du menu */
+  
+
+ //	pHBox= gtk_vbox_new(FALSE,8);
+   // pVBox = gtk_vbox_new(FALSE, 8);
+    //gtk_container_add(GTK_CONTAINER(pWindow), pVBox);
+ 	//gtk_container_add(GTK_CONTAINER(pWindow),pHBox );
+/*	pixbuf2=gdk_pixbuf_new_from_file("image2.bmp", &error);
+	pixbuf = gdk_pixbuf_new_from_file (sChemin, &error); 
+    GdkPixbuf *pixbuf_mini = NULL; 
+	GdkPixbuf *pixbuf_mini2=NULL;
+	//pixbuf_mini2=gdk_pixbuf_scale_simple(pixbuf2,625,450,
+//	GDK_INTERP_NEAREST);
+    pixbuf_mini = gdk_pixbuf_scale_simple (pixbuf,625, 450, 
+            GDK_INTERP_NEAREST); 
+    pImage2=gtk_image_new_from_pixbuf(pixbuf_mini2);
+    pImage = gtk_image_new_from_pixbuf (pixbuf_mini);
+    buttonFindChar = gtk_button_new_with_label("FindChar");
+    g_signal_connect(G_OBJECT(buttonFindChar), "clicked",
+			  G_CALLBACK(afficher_findchar), NULL);*/
+   
+ 	gtk_container_set_border_width (GTK_CONTAINER (pWindow), 10);
+	gtk_window_set_default_size(GTK_WINDOW(pWindow), screen_width, screen_height);
+    gtk_window_move(GTK_WINDOW(pWindow),  0,  600);
+
+ /* Creation du menu */
    p_uiManager = gtk_ui_manager_new ();
    p_actionGroup = gtk_action_group_new ("menuActionGroup");
    gtk_action_group_add_actions (p_actionGroup, entries,
                                  G_N_ELEMENTS (entries), NULL);
    gtk_ui_manager_insert_action_group (p_uiManager, p_actionGroup, 0);
    gtk_ui_manager_add_ui_from_file (p_uiManager, "menu.xml", NULL);
-   g_signal_connect
-      (p_uiManager, "add_widget", G_CALLBACK (menu_addWidget), p_vBox);
-/* Boucle principale */
-   gtk_widget_show_all (p_window);
-  // gtk_main ();
-/* destruction */
-   //return (EXIT_SUCCESS);
+
+	//gtk_box_pack_start(GTK_BOX(pVBox),pHBox,FALSE,TRUE,0);
+	
+   
+	 //	  gtk_container_add (GTK_CONTAINER (pHBox), p_vBox);
+
+// gtk_box_pack_end(GTK_BOX(p_vBox), buttonFindChar, FALSE,TRUE , 0);
+//	gtk_box_pack_end(GTK_BOX(p_vBox), pImage, TRUE, TRUE, 0);
+
+//gtk_box_pack_end(GTK_BOX(p_vBox),pImage2,FALSE,TRUE,0);	
+	gtk_container_add(GTK_CONTAINER(pWindow),p_vBox );
+
+      g_signal_connect
+      (p_uiManager, "add_widget", G_CALLBACK (menu_addWidget), p_vBox); 
+			    gtk_widget_show_all(pWindow);
+
+    gtk_main();
+
+ 
 }
 
-static void menu_addWidget (GtkWidget * p_widget,
+
+void open_image (gchar * sChemin, GtkWidget *p_vBox)
+{		 GtkWidget *pImage;
+	GdkPixbuf *pixbuf;
+	GtkWidget *buttonFindChar;
+
+	pixbuf = gdk_pixbuf_new_from_file (sChemin, NULL); 
+    GdkPixbuf *pixbuf_mini = NULL; 
+pixbuf_mini = gdk_pixbuf_scale_simple (pixbuf,625, 450, 
+           GDK_INTERP_NEAREST); 
+    pImage = gtk_image_new_from_pixbuf (pixbuf_mini);
+	gtk_box_pack_start(GTK_BOX(p_hBox), pImage, TRUE, TRUE, 0);
+gtk_container_add(GTK_CONTAINER(p_vBox),p_hBox );
+ gtk_widget_show_all(pWindow);
+
+ 
+
+}
+
+static void Binarize (void) {
+
+
+open_image("image2.bmp",p_hBox);
+
+}
+
+
+
+static void menu_addWidget (GtkUIManager *  p_uimanager,GtkWidget * p_widget,
                             GtkContainer * p_box)
 {
-   gtk_box_pack_start (GTK_BOX (p_box), p_widget, FALSE, FALSE, 0);
+   gtk_box_pack_start (GTK_BOX (p_box), (p_widget), FALSE, FALSE, 0);
    gtk_widget_show (p_widget);
    return;
 }
-/*
-static void menu_item_new (GtkMenu *p_menu, const gchar *title, GCallback callback, gpointer user_data)
-{
-	  GtkWidget *p_menu_item = NULL;
 
-	    p_menu_item = gtk_menu_item_new_with_mnemonic (title);
-		  gtk_menu_shell_append (GTK_MENU_SHELL (p_menu), p_menu_item);
-		    g_signal_connect (G_OBJECT (p_menu_item), "activate", callback, user_data);
-}*/
 
 static void menu_new (void)
 {
-   GtkWidget *p_dialog = NULL;
+   	GtkWidget *pWindow;
+    GtkWidget *pButton;
+    GtkWidget *pFileSelection;
+    GtkWidget *pDialog;
+    gchar *sChemin;
+ 
+ 
+    /* Creation de la fenetre de selection */
+    pFileSelection = gtk_file_chooser_dialog_new("Enregistrer sous..",NULL ,GTK_FILE_CHOOSER_ACTION_SAVE,	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,GTK_STOCK_OPEN, GTK_RESPONSE_OK,NULL);
+    /* On limite les actions a cette fenetre */
+    gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
+ 
+    /* Affichage fenetre */
+    switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
+    {
+        case GTK_RESPONSE_OK:
+            /* Recuperation du chemin */
+            sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
+            pDialog = gtk_message_dialog_new(GTK_WINDOW(pFileSelection),
+                GTK_DIALOG_MODAL,
+                GTK_MESSAGE_INFO,
+                GTK_BUTTONS_OK,
+                "Chemin du fichier :\n%s", sChemin);
+            gtk_dialog_run(GTK_DIALOG(pDialog));
+            gtk_widget_destroy(pDialog);
+	    g_free(sChemin);
+            break;
+        default:
+            break;
+    }
+//	open_image(sChemin);
 
-   p_dialog = gtk_message_dialog_new
-      (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Nouveau");
-   gtk_dialog_run (GTK_DIALOG (p_dialog));
-   gtk_widget_destroy (p_dialog);
-   return;
+    gtk_widget_destroy(pFileSelection);
+ 
+ 
+ 
+    return ;
+
 }
 
-static void menu_open (void)
+static gchar *menu_open (void)
 {
-   GtkWidget *p_dialog = NULL;
+	GtkWidget *pWindow;
+    GtkWidget *pButton;
+ 
+    GtkWidget *pFileSelection;
+    GtkWidget *pDialog;
+    gchar *sChemin="";
+ 
+ 
+ 
+    /* Creation de la fenetre de selection */
+    pFileSelection = gtk_file_chooser_dialog_new("Ouvrir...",NULL ,GTK_FILE_CHOOSER_ACTION_OPEN,	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,GTK_STOCK_OPEN, GTK_RESPONSE_OK,NULL);
+    /* On limite les actions a cette fenetre */
+    gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
+ 
+    /* Affichage fenetre */
+    switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
+    {
+        case GTK_RESPONSE_OK:
+            /* Recuperation du chemin */
+            sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
+            pDialog = gtk_message_dialog_new(GTK_WINDOW(pFileSelection),
+                GTK_DIALOG_MODAL,
+                GTK_MESSAGE_INFO,
+                GTK_BUTTONS_OK,
+                "Chemin du fichier :\n%s", sChemin);
+            gtk_dialog_run(GTK_DIALOG(pDialog));
+            gtk_widget_destroy(pDialog);
+			
+            break;
+        default:
+            break;
+    }
+    gtk_widget_destroy(pFileSelection);
+ 	open_image(sChemin,p_vBox);
+	g_free(sChemin);
 
-   p_dialog = gtk_message_dialog_new
-      (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Ouvrir");
-   gtk_dialog_run (GTK_DIALOG (p_dialog));
-   gtk_widget_destroy (p_dialog);
-   return;
+ 
+ 
+    return sChemin ;
+
 }
 
 static void menu_quit (void)
@@ -163,7 +243,6 @@ static void menu_help (void)
    gtk_widget_destroy (p_dialog);
    return;
 }
-
 static void menu_about (void)
 {
    GError *error = NULL;
@@ -193,10 +272,7 @@ static void menu_about (void)
          {
             GtkWidget *p_dialog = NULL;
 
-           /* p_dialog = gtk_message_dialog_new
-               (NULL,
-                GTK_DIALOG_MODAL,
-                GTK_MESSAGE_INFO, GTK_BUTTONS_OK, error->message);*/
+          
             gtk_dialog_run (GTK_DIALOG (p_dialog));
             gtk_widget_destroy (p_dialog);
          }
@@ -206,10 +282,7 @@ static void menu_about (void)
    {
       GtkWidget *p_dialog = NULL;
 
-      /*p_dialog = gtk_message_dialog_new
-         (NULL,
-          GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, error->message);*/
-      gtk_dialog_run (GTK_DIALOG (p_dialog));
+          gtk_dialog_run (GTK_DIALOG (p_dialog));
       gtk_widget_destroy (p_dialog);
    }
    return;
@@ -266,6 +339,4 @@ void on_copier_button(gpointer data)
     /* Liberation de la memoire utilisee par la liste */
     g_list_free(pList);
 }
-
-
 
