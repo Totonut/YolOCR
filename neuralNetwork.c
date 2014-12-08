@@ -1,9 +1,7 @@
 #include"neuralNetwork.h"
-//#include"SDL/SDL_image.h"
-//#include"../perfectImage.h"
 
 
-const double THRESHOLD = 0.01;  // Average permissible output error
+const double THRESHOLD = 0.05;  // Average permissible output error
 const long MAX_ITER = 10000;  // Max iter while learning
 
 
@@ -248,7 +246,7 @@ double calculate(struct neuron **n, int **example, int *layers_Size, int layers)
     {
       for (int j=0; j<img->w; ++j)
       {
-        inputs[j + i*img->w] = obtenirPixel(img,j,i) == 0x00000000;
+        inputs[j + i*img->w] = getPix(img,j,i) == 0x00000000;
       }
     }
   }
@@ -317,15 +315,15 @@ double calculate(struct neuron **n, int **example, int *layers_Size, int layers)
     return e; 
   }
 
-/*
-  struct neuron** creat_network(int *layers_Size, int layers)
+
+  struct neuron** load_network(int *layers_Size, int layers)
   {
     struct neuron **net = new_network(layers_Size, layers);
-    init_weights(net, layers_Size, layers);
+    load(net, layers_Size, layers);
 
     return net;
   }
-*/
+
 
   char comput(struct neuron **net, int *inputs, int *layers_Size, int layers, char *chars)
   {    
@@ -346,173 +344,89 @@ double calculate(struct neuron **n, int **example, int *layers_Size, int layers)
   }
 
   // Main
-
+/*
  int main()
  {
   int in_size = 256;
-  int ou_size = 10;
+  int ou_size = 88;
 
-  // ex
-  SDL_Surface *im0 = IMG_Load("ex/0.jpg");
-  SDL_Surface *im1 = IMG_Load("ex/1.jpg");
-  SDL_Surface *im2 = IMG_Load("ex/2.jpg");
-  SDL_Surface *im3 = IMG_Load("ex/3.jpg");
-  SDL_Surface *im4 = IMG_Load("ex/4.jpg");
-  SDL_Surface *im5 = IMG_Load("ex/5.jpg");
-  SDL_Surface *im6 = IMG_Load("ex/6.jpg");
-  SDL_Surface *im7 = IMG_Load("ex/7.jpg");
-  SDL_Surface *im8 = IMG_Load("ex/8.jpg");
-  SDL_Surface *im9 = IMG_Load("ex/9.jpg");
+  SDL_Surface *img_ex = IMG_Load("ex/Exemples2.jpg");
+  SDL_Surface *img_test = IMG_Load("test/Test3.jpg");
+  perfectImage(img_ex);
+  perfectImage(img_test);
 
-  /*
-  //test
-  SDL_Surface *test0 = IMG_Load("test/0.jpg");
-  SDL_Surface *test1 = IMG_Load("test/1.jpg");
-  SDL_Surface *test2 = IMG_Load("test/2.jpg");
-  SDL_Surface *test3 = IMG_Load("test/3.jpg");
-  SDL_Surface *test4 = IMG_Load("test/4.jpg");
-  SDL_Surface *test5 = IMG_Load("test/5.jpg");
-  SDL_Surface *test6 = IMG_Load("test/6.jpg");
-  SDL_Surface *test7 = IMG_Load("test/7.jpg");
-  SDL_Surface *test8 = IMG_Load("test/8.jpg");
-  SDL_Surface *test9 = IMG_Load("test/9.jpg");
-  */
+  int nb_ex = 0;
+  int **inputs = find_char(img_ex, &nb_ex);
+ 
+ printf("Nb_ex = %d\n",nb_ex);
 
+  char *chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-=/%()[]éèàùëêç.,;:?!&@$€";
+    // 88
+  //char *chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    //62
 
-  // ex
-  int *inputs0 = malloc(in_size*sizeof(int));
-  int *inputs1 = malloc(in_size*sizeof(int));
-  int *inputs2 = malloc(in_size*sizeof(int));
-  int *inputs3 = malloc(in_size*sizeof(int));
-  int *inputs4 = malloc(in_size*sizeof(int));
-  int *inputs5 = malloc(in_size*sizeof(int));
-  int *inputs6 = malloc(in_size*sizeof(int));
-  int *inputs7 = malloc(in_size*sizeof(int));
-  int *inputs8 = malloc(in_size*sizeof(int));
-  int *inputs9 = malloc(in_size*sizeof(int));
-
-  // ex
-  get_inputs(im0, inputs0); 
-  get_inputs(im1, inputs1); 
-  get_inputs(im2, inputs2); 
-  get_inputs(im3, inputs3); 
-  get_inputs(im4, inputs4); 
-  get_inputs(im5, inputs5); 
-  get_inputs(im6, inputs6); 
-  get_inputs(im7, inputs7); 
-  get_inputs(im8, inputs8); 
-  get_inputs(im9, inputs9);
-
-  //ex
-  int *inputs[] = {inputs0,inputs1,inputs2,inputs3,inputs4,inputs5,inputs6,inputs7,inputs8,inputs9};
-
-  /*
-  char *chars =   "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "abcdefghijklmnopqrstuvwxyz"
-                + "0123456789+-=/%()[]éèàùëêç"
-                + ".,;:?!&@$€"; // 88
-  */
-  char *chars = "0123456789";
+ //char *chars = "0123456789";
 
   int layers = 4;// Layers in the network (including input and output layers)
   int layers_Size[] = {in_size, 2*in_size, in_size, ou_size};   // Size of each layer
    
   struct neuron **net;
-  int nb_ex = 10;  // Number of examples;
-
-
-  //net = creat_network(layers_Size, layers);
-
+   
   net = new_network(layers_Size, layers);
+  init_weights(net, layers_Size, layers);
 
-/*
 // Learn and save
   writeEx();
   for(int i = 0; i<nb_ex; i++)
     writeNewEx(inputs[i], i%ou_size, layers_Size, layers);
   int ***examples = readEx(nb_ex, layers_Size, layers);
+  printf("Début learn\n");
   learn(net, examples, layers_Size, layers, nb_ex);
   save(net,layers_Size, layers);
-*/
+printf("Fin learn\n");
 
 // Load
-  load(net, layers_Size, layers);
+  //load(net, layers_Size, layers);
 
-
-  printf("Examples :\n");
+  int correct = 0;
+  //printf("Examples :\n");
   for(int e = 0; e<nb_ex; e++)
   {    
-    //init_inputs(net, examples[e][0], layers_Size[0]);
-    
     char ans = comput(net, inputs[e], layers_Size, layers, chars);
-    /*
-    init_inputs(net, inputs[e], layers_Size[0]);
-    feedforward(net, layers_Size, layers);
-    */
-
-    /*
-    printf("\nInputs %d :\n",e);
-    for(int i = 1; i<=layers_Size[0]; i++)
-    {
-      printf("%d",(int)net[0][i-1].output);
-      if(i%16 == 0)
-        printf("\n");
-    }
-    */
+    //printf("\nOutputs %d :\n",e);
+    correct += chars[e%ou_size] == ans;
+    //printf("Expected %c / Ans : %c / %d\n",chars[e%ou_size],ans,chars[e%ou_size] == ans);
     
     
-    printf("\nOutputs %d :\n",e);
-    printf("Ans : %c\n",ans);
-    /*
     for(int i = 0; i<layers_Size[layers-1]; i++)
     {
       if(net[layers-1][i].output > 0.5)
         printf("Ans : %c\n", chars[i]);
      // printf("Out[%d] = %f : %d\n", i, net[layers-1][i].output, net[layers-1][i].output > 0.5);
     }
-    */
+    
   }
 
-  /* 
+   
   // TESTS
 
-  get_inputs(test0, inputs0); 
-  get_inputs(test1, inputs1); 
-  get_inputs(test2, inputs2); 
-  get_inputs(test3, inputs3); 
-  get_inputs(test4, inputs4); 
-  get_inputs(test5, inputs5); 
-  get_inputs(test6, inputs6); 
-  get_inputs(test7, inputs7); 
-  get_inputs(test8, inputs8); 
-  get_inputs(test9, inputs9);
+  int correct2 = 0;
+  int nb_test = 0;
+  inputs = find_char(img_test, &nb_test);
   
-  printf("\nTests :\n");
-  for(int e = 0; e<10; e++)
+  //printf("\nTests :\n");
+  for(int t = 0; t<nb_test; t++)
   {
-    init_inputs(net, inputs[e], layers_Size[0]);
-    feedforward(net, layers_Size, layers);
-    
-    printf("\nOutputs %d :\n",e);
-    float max = 0;
-    int maxId = 0;
-    for(int i = 0; i<layers_Size[layers-1]; i++)
-    {
-      //if(net[layers-1][i].output > 0.5)
-        //printf("Ans : %d\n",i);
-      if(net[layers-1][i].output > max)
-      {
-        max = net[layers-1][i].output;
-        maxId = i;
-      }
-      //printf("Out[%d] = %f : %d\n", i, net[layers-1][i].output, net[layers-1][i].output > 0.5);
-    }
-    printf("Ans : %d : %f\n",maxId, max);
+    char ans = comput(net, inputs[t], layers_Size, layers, chars);
+    //printf("\nOutputs %d :\n",t);
+    //printf("Ans : %c\n",ans);
+    correct2 += chars[t%ou_size] == ans;
+    //printf("Expected %c / Ans : %c / %d\n",chars[t%ou_size],ans,chars[t%ou_size] == ans);
   }
-  */
   
-
-
   printf("\n");
+  printf("Ex : %d / %d = %f\n",correct,nb_ex, ((double)correct/(double)nb_ex)*100);
+  printf("Test : %d / %d = %f\n",correct2,nb_test, ((double)correct2/(double)nb_test)*100);
   return 0;
  }
+ */

@@ -4,6 +4,7 @@
 
 unsigned int **transformPix(unsigned int *tabPix, SDL_Surface *screen)
 {
+
 	unsigned** newData = malloc(500*sizeof(int *));
 	unsigned nearestMatchX = 0, nearestMatchY = 0, n = 0;
 	Uint32 pixel = 0;
@@ -32,9 +33,9 @@ unsigned int **transformPix(unsigned int *tabPix, SDL_Surface *screen)
 }
 
 
-unsigned *transformPix2(unsigned x, unsigned y, unsigned w, unsigned h, SDL_Surface *screen)
+int *transformPix2(unsigned x, unsigned y, unsigned w, unsigned h, SDL_Surface *screen)
 {
-  unsigned *data = malloc(256*sizeof(unsigned));
+  int *data = malloc(256*sizeof(unsigned));
 
 	unsigned nearestMatchX = 0, nearestMatchY = 0;
 	Uint32 pixel = 0;
@@ -50,9 +51,9 @@ unsigned *transformPix2(unsigned x, unsigned y, unsigned w, unsigned h, SDL_Surf
 			nearestMatchX =  (unsigned)(cx / scaleWidth) > w ? w : (unsigned)(cx / scaleWidth);;
 			pixel = getPix(screen, x + nearestMatchX, y + nearestMatchY); 
 			data[cy * 16 + cx] = (pixel != 0x00000000) ? 0 : 1;
-			printf("%d ", data[cy * 16 + cx]);
+			//printf("%d ", data[cy * 16 + cx]);
 		}
-		printf("\n");
+		//printf("\n");
 	}	
 	return data;
 }

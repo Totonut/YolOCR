@@ -8,6 +8,7 @@
 #include"SDL/SDL_image.h"
 #include"perfectImage.h"
 #include<err.h>
+//#include"findChar.h"
 
 struct neuron
 {
@@ -37,7 +38,7 @@ void load(struct neuron **n, int *layers_Size, int layers);
 void writeEx();
 void writeNewEx(int *e, int ans, int *layers_Size, int layers);
 int*** readEx(int nb_ex, int *layers_Size, int layers);
-//struct neuron** creat_network(int *layers_Size, int layers);
+struct neuron** load_network(int *layers_Size, int layers);
 char comput(struct neuron **net, int *inputs, int *layers_Size, int layers, char *chars);
 
 #endif

@@ -1,5 +1,5 @@
-#include <stdlib.h>
-#include <gtk/gtk.h>
+//#include <stdlib.h>
+//#include <gtk/gtk.h>
 #include "interface.h"
 
 void open_window()
