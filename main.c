@@ -30,13 +30,13 @@ int main(int argc, char *argv[])
     perfectImage(image);
     SDL_SaveBMP(image, "image2.bmp");
     char *res =  find_char(image, net, layers_Size, layers, chars);
+    for (int i=0; res[i]; ++i)
+    	printf("%c", res[i]);
+    printf("\n", res);
     SDL_SaveBMP(image, "image3.bmp");
     sound_reduction(image);
     SDL_SaveBMP(image, "imageTest.bmp");
     create_window(res);
-    int n = strlen(res);
-    for (int i = 0; i < n; ++i) 
-	  printf("%s",res[i]);
     SDL_FreeSurface(image);	
 
     SDL_Quit();

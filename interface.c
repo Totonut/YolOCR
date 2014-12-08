@@ -299,10 +299,7 @@ void afficher_findchar()
     GtkTextBuffer* buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(view));
     GtkTextIter end;
     gtk_text_buffer_get_end_iter(buffer, &end);
-    const char* res = find();
-    int n = strlen(res);
-    printf("%d\n", n);
-    gtk_text_buffer_insert(buffer, &end, res, -1);
+    gtk_text_buffer_insert(buffer, &end, "La chaine est affichée en console !", -1);
     pVBox = gtk_vbox_new(TRUE, 0);
     gtk_container_add(GTK_CONTAINER(pWindow), pVBox);
     gtk_box_pack_start(GTK_BOX(pVBox), view, TRUE, TRUE, 0);
