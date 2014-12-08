@@ -228,7 +228,7 @@ double calculate(struct neuron **n, int **example, int *layers_Size, int layers)
     
     if ((file = fopen(fname, "r")) == NULL) 
     {
-      err(3, "Error while creating %s", fname);
+      err(3, "Error while opening  %s", fname);
     }
 
     for(int i=0;i<layers-1;i++)
@@ -316,7 +316,7 @@ double calculate(struct neuron **n, int **example, int *layers_Size, int layers)
   }
 
 
-  struct neuron** load_network(int *layers_Size, int layers)
+  struct neuron **load_network(int *layers_Size, int layers)
   {
     struct neuron **net = new_network(layers_Size, layers);
     load(net, layers_Size, layers);

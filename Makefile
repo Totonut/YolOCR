@@ -9,7 +9,7 @@ OBJ = $(SRC:.c=.o)
 #
 # Flags d'erreurs:
 #
-ERROR_FLAGS = -Wall -Wextra -Werror -std=c99
+ERROR_FLAGS = -Wall -Wextra -std=c99
 
 #
 # Flags pour le compilateur:
@@ -30,9 +30,9 @@ LDFLAGS = $(ERROR_FLAGS) $(GTK_LDFLAGS)
 #
 # Construction du programme:
 #
-all: $(BIN)
+all: main
 
-$(BIN): $(SRC)
+main: $(SRC)
 	$(CC) $(CFLAGS) -c $(SRC)
 	$(CC) $(LDFLAGS) -lSDLmain -lSDL -lSDL_image -lSDL_ttf -o $(BIN) $(OBJ) -lm
 
