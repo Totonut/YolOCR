@@ -1,6 +1,11 @@
 #include "constantes.h"
 #include "perfectImage.h"
 #include "interface.h"
+#include "findChar.h"
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <SDL/SDL.h>
 
 
 int main(int argc, char *argv[])
@@ -24,6 +29,7 @@ int main(int argc, char *argv[])
   else
 	image = IMG_Load("image.jpg");
 	SDL_SaveBMP(image, "image.bmp");
+
 	
   perfectImage(image);
  	char *string = find_char(image, net, layers_Size, layers, chars);
@@ -34,6 +40,13 @@ int main(int argc, char *argv[])
   open_window();
 
   SDL_FreeSurface(image);	
+
+	perfectImage(image);
+ 	find_char(image);
+	SDL_SaveBMP(image, "image2.bmp");
+    	create_window();
+		SDL_FreeSurface(image);	
+
 	
 	SDL_Quit();
 	return 0;

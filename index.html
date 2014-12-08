@@ -1,0 +1,723 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <title>Utilisation de GtkUIManager - Club d'entraide des d&#233;veloppeurs francophones</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <meta name="generator" content="developpez-com" />
+  <link rel="stylesheet" type="text/css" media="screen" href="./article.css" />
+  
+</head>
+<body>
+<style type="text/css">
+<!--
+body {
+	background-color : #DDEEFF;
+	background: #DDEEFF;
+	font: normal;
+    font-family: Verdana;
+    font-weight: normal;    
+    margin: 0
+}
+
+img {
+    border:0
+}
+form {
+    margin : 0
+}
+td {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size : 10pt;
+	font-weight: normal;
+}
+td.iongl {
+	width : 1px;
+}
+
+td.bgongl {
+	background-image : url(./images/kitint.gif);
+	text-align : center;
+}
+.ntdrub:link {
+	color : #000000;
+	font-weight : bold;
+    font-size : 8pt;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.ntdrub:visited {
+    color : #000000;
+    font-weight : bold;
+    font-size : 8pt;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.ntdrub:active {
+	color : #000000;
+	font-weight : bold;
+    font-size : 8pt;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.ntdrub:hover {
+    color : #FF0000;
+    background-color: #FFF8DD;
+    font-weight : bold;
+	font-size : 8pt;
+	text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+td.trbleu {
+	background-color:#6389D8;
+	text-align : center;
+    margin: 0 ;
+	border: 0;
+	padding-top : 3px;
+	padding-bottom : 3px;
+	height : 34px;
+}
+td.fondart {
+    background-color:#FFFFFF;
+    
+}
+
+table.tbnoir{
+	background-color:#000000;
+}
+.titrepied {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size : 10pt;
+	font: normal;
+	font-weight: normal
+}
+
+-->
+</style>
+<table width="100%" cellspacing="4">
+	<tr>
+	<td align="center">
+		<table width="100%" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				  <table width="100%" cellspacing="11">
+					<tr>
+						<td>
+						<a href="http://www.developpez.com"><img src="images/kitlogo.gif" alt="Accueil" /></a>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+			<tr>
+    			<td>
+						<table class="cachee" cellpadding="0" cellspacing="0" width="100%">
+							<tr>
+								<td class="iongl"><img src="images/kitbordg.gif" alt=""/></td>
+								<td class="bgongl"><a href="http://www.developpez.com" class="ntdrub">Accueil</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://club.developpez.com" class="ntdrub">Le Club</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://delphi.developpez.com" class="ntdrub">Delphi Kylix</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://c.developpez.com" class="ntdrub">C C++</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://java.developpez.com" class="ntdrub">Java J2EE</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://dotnet.developpez.com" class="ntdrub">DotNET &amp; C#</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://vb.developpez.com" class="ntdrub">Visual Basic</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://access.developpez.com" class="ntdrub">Access</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://pascal.developpez.com" class="ntdrub">Pascal</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://web.developpez.com" class="ntdrub">Dev Web</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://php.developpez.com" class="ntdrub">PHP</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://asp.developpez.com" class="ntdrub">ASP</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://xml.developpez.com" class="ntdrub">XML</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://uml.developpez.com" class="ntdrub">UML</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://sgbd.developpez.com" class="ntdrub">SQLSGBD</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://windows.developpez.com" class="ntdrub">Windows</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://linux.developpez.com" class="ntdrub">Linux</a></td>
+								<td class="iongl"><img src="images/kitbord1.gif" alt="" /></td>
+								<td class="bgongl"><a href="http://www.developpez.com/cours/" class="ntdrub">Autres</a></td>
+								<td class="iongl"><img src="images/kitbordd.gif" alt="" /></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				<tr>
+					<td class="trbleu">
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<td valign="top" class="fondart">
+						<table cellspacing="1" width="100%" class="tbnoir">
+							<tr>
+								<td class="fondart">
+									<div style="text-align:center;">
+									<table class="cadrearticle" width="90%" cellpadding="10" cellspacing="0">
+										<tr>
+											<td align="center" style="text-align:left">
+
+		<br/><h1>Utilisation de GtkUIManager</h1><p class="dateArticle">Date de publication : 13/07/2005 , Date de mise &agrave; jour : 13/07/2005</p><p style="text-align: center;">
+		Par
+		<a class="auteur" href="http://www.developpez.net/forums/member.php?u=41072">Nicolas Joseph</a> <a class="homepage" href="http://nicolasj.developpez.com"> (home)</a> <a class="homepage" href="http://blog.developpez.com/?blog=58">(Blog)</a><br/>&nbsp;</p><div class="synopsis">
+		Utilisation de GtkUIManager en C pour créer un menu et une barre d'outils.
+	</div>
+		<br /><a class="summaryIndent0" href="#LI">I. Introduction</a>
+			
+			
+		
+		<br /><a class="summaryIndent0" href="#LII">II. Création d'un menu</a>
+			
+			
+			
+			
+			<br /><a class="summaryIndent1" href="#LII-A">II-A. GtkUIManager</a>
+				
+				
+
+				
+				
+				
+
+				
+
+				
+
+				
+
+				
+
+				
+
+			
+			<br /><a class="summaryIndent1" href="#LII-B">II-B. GtkActionEntry</a>
+				
+				
+
+				
+				
+				
+
+				
+
+				
+
+				
+
+				
+			
+		
+		<br /><a class="summaryIndent0" href="#LIII">III. Création d'une barre d'outils</a>
+			
+			
+
+			
+
+		
+		<br /><a class="summaryIndent0" href="#LIV">IV. Les raccourcis clavier</a>
+			
+			
+			
+			
+
+		
+		<br /><a class="summaryIndent0" href="#LV">V. Conclusion</a>
+			
+			
+		
+		<br /><a class="summaryIndent0" href="#LVI">VI. Remerciement</a>
+			
+			
+			
+		<br /><a class="summaryIndent0" href="#LVII">VII. Code source complet</a>
+			
+			
+
+
+
+			
+		
+	<br/><br/>
+		<br /><h1 class="TitreSection0" id="LI">I. Introduction</h1>
+			
+			<div class="paragraph">
+				Ce tutorial à pour but de expliquer l'utilisation de l'objet <i>GtkUIManager</i> qui fait partie des nouveautés de la version 2.4 de GTK+. Son utilisation peut parraître déroutante de prime abord mais en fait elle simplifie grandement la mise en place de menus, de barres d'outils et de raccourcis clavier. Elle comporte de nombreux avantages comme je vais essayer de vous le démontrer tout au long de ce tutorial.
+			</div><br/>
+		
+		<br /><h1 class="TitreSection0" id="LII">II. Création d'un menu</h1>
+			
+			<div class="paragraph">
+				Il existe plusieurs possibilités pour créer un menu en GTK+ :
+			</div><br/>
+			<ul style="list-style-type: disc;">
+				<li>La méthode manuelle : en utilisant <i>gtk_menu_new</i>, <i>gtk_menu_item_new_with_label</i>... cette méthode est longue et difficilement maintenable</li>
+				<li>En utilisant l'usine à gaz <i>GtkItemFactory</i>, mais cette méthode est obsolète</li>
+				<li>Et enfin une dernière méthode qui va nous intéresser dans cet article : à l'aide du composant <i>GtkUIManager</i></li>
+			</ul>
+			<div class="paragraph">
+				Cette dernière méthode est en fait divisée en deux parties : l'organisation du menu (sauvegardée dans un fichier XML, géré par l'objet <i>GtkUIManager</i>) et la forme (gérée à l'aide de groupes d'actions, par l'intermédaire de l'objet <i>GtkActionEntry</i>).
+			</div><br/>
+			<br /><h2 class="TitreSection1" id="LII-A">II-A. GtkUIManager</h2>
+				
+				<div class="paragraph">
+					Le fichier XML se contente de fournir des informations concernant l'organisation du menu. A titre d'information, voici le fichier DTD qui définit la syntaxe XML à utiliser :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="other_code">&lt;!ELEMENT ui          (menubar|toolbar|popup|accelerator)* &gt;
+&lt;!ELEMENT menubar     (menuitem|separator|placeholder|menu)* &gt;
+&lt;!ELEMENT menu        (menuitem|separator|placeholder|menu)* &gt;
+&lt;!ELEMENT popup       (menuitem|separator|placeholder|menu)* &gt;
+&lt;!ELEMENT toolbar     (toolitem|separator|placeholder)* &gt;
+&lt;!ELEMENT placeholder (menuitem|toolitem|separator|placeholder|menu)* &gt;
+&lt;!ELEMENT menuitem     EMPTY &gt;
+&lt;!ELEMENT toolitem     EMPTY &gt;
+&lt;!ELEMENT separator    EMPTY &gt;
+&lt;!ELEMENT accelerator  EMPTY &gt;
+&lt;!ATTLIST menubar      name               #IMPLIED 
+                       action             #IMPLIED &gt;
+&lt;!ATTLIST toolbar      name               #IMPLIED 
+                       action             #IMPLIED &gt;
+&lt;!ATTLIST popup        name               #IMPLIED 
+                       action             #IMPLIED &gt;
+&lt;!ATTLIST placeholder  name               #IMPLIED
+                       action             #IMPLIED &gt;
+&lt;!ATTLIST separator    name               #IMPLIED
+                       action             #IMPLIED &gt;
+&lt;!ATTLIST menu         name               #IMPLIED
+                       action             #REQUIRED
+                       position (top|bot) #IMPLIED &gt;
+&lt;!ATTLIST menuitem     name               #IMPLIED
+                       action             #REQUIRED
+                       position (top|bot) #IMPLIED &gt;
+&lt;!ATTLIST toolitem     name               #IMPLIED
+                       action             #REQUIRED
+                       position (top|bot) #IMPLIED &gt;
+&lt;!ATTLIST accelerator  name               #IMPLIED
+                       action             #REQUIRED &gt;</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Le fichier XML doit commencer par la balise <i>&lt;ui&gt;</i> et se terminer par <i>&lt;/ui&gt;</i>. A l'intérieur de ces balises, peuvent se trouver des balises <i>&lt;menubar&gt;</i>, <i>&lt;toolbar&gt;</i>, <i>&lt;popup&gt;</i> et <i>&lt;accelerator&gt;</i>. La balise <i>&lt;menubar&gt;</i> signale le début d'une barre de menu, elle ne prend pas de paramètre. La zone encadrée par les balises <i>&lt;menubar&gt;</i> et <i>&lt;/menubar&gt;</i> peut contenir les balises suivantes :
+				</div><br/>
+				<ul style="list-style-type: disc;">
+					<li><i>&lt;menuitem&gt;</i> : il s'agit d'un bouton qui permet d'effectuer une action lorsque l'on clique dessus</li>
+					<li><i>&lt;separator&gt;</i> : comme sont nom l'indique, il s'agit d'un séparateur</li>
+					<li><i>&lt;placeholder&gt;</i> : ?</li>
+					<li><i>&lt;menu&gt;</i> : affiche un sous menu lorsque l'on clique dessus (le plus courant)</li>
+				</ul>
+				<div class="paragraph">
+					A part <i>&lt;separator&gt;</i>, les deux autres balises ne nécessitent qu'un seul agument qui est le paramètre <i>action</i>. Ce paramètre est une chaîne de caractères qui nous servira ensuite à identifier le menu dans la structure <i>GtkActionEntry</i>.<br />
+					Pour résumer, voici un exemple de fichier XML qui sert à créer un menu simple du genre :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="other_code">- Fichier
+ - Nouveau
+ - Ouvrir
+ - Quitter
+- Aide
+ - Aide
+ - A propos</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Et voici le fichier XML correspondant :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="xml_code">&lt;<span class="xml_balise">ui</span>&gt;
+  &lt;<span class="xml_balise">menubar</span>&gt;
+    &lt;<span class="xml_balise">menu</span> action=<span class="xml_ch">"FichierMenuAction"</span>&gt;
+      &lt;<span class="xml_balise">menuitem</span> action=<span class="xml_ch">"NouveauAction"</span> /&gt;
+      &lt;<span class="xml_balise">menuitem</span> action=<span class="xml_ch">"OuvrirAction"</span> /&gt;
+      &lt;<span class="xml_balise">menuitem</span> action=<span class="xml_ch">"QuitterAction"</span> /&gt;
+    &lt;/<span class="xml_balise">menu</span>&gt;
+    &lt;<span class="xml_balise">menu</span> action=<span class="xml_ch">"AideMenuAction"</span>&gt;
+      &lt;<span class="xml_balise">menuitem</span> action=<span class="xml_ch">"AideAction"</span> /&gt;
+      &lt;<span class="xml_balise">menuitem</span> action=<span class="xml_ch">"AproposAction"</span> /&gt;
+    &lt;/<span class="xml_balise">menu</span>&gt;
+  &lt;/<span class="xml_balise">menubar</span>&gt;
+&lt;/<span class="xml_balise">ui</span>&gt;</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Une fois le fichier XML créé, passons du côté du code. Il faut commencer par créer un objet de type de type <i>GtkUIManager</i> :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code">GtkUiManager *p_uiManager = gtk_ui_manager_new ();</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Ensuite, il suffit de faire analyser le fichier XML par GTK+ :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code">gtk_ui_manager_add_ui_from_file
+(
+  p_uiManager,
+  <span class="c_ch">"menu.xml"</span>,
+  <span class="c_keyword">NULL</span>
+);</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Le premier paramètre de la fonction <i>gtk_ui_manager_add_ui_from_file</i> est tout naturellement l'objet <i>GtkUIManager</i> créé précédemment, ensuite vient le nom du fichier XML contenant l'organisation du menu. Le dernier paramètre, qui peut être NULL, permet de récupérer une éventuelle erreur qui se serait produite lors de l'analyse du fichier, mais ceci dépasse le cadre de cet article.<br />
+					Pour finir, il faut fournir à <i>GtkUIManager</i> une fonction à appeler pour ajouter les widgets dans le menu :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code">g_signal_connect 
+(
+  p_uiManager, 
+  <span class="c_ch">"add_widget"</span>, 
+  G_CALLBACK( menu_addWidget ),
+  p_menuBox
+);</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Ceci est une utilisation classique de la fonction de gestion des callback de la glib. Seul point important à noter, il faut passer un pointeur sur un objet de type <i>GtkContainer</i> qui contiendra le widget nouvellement créé.<br />
+					La fonction <i>menu_addWidget</i> est des plus simples puisqu'elle se contente d'insérer l'élément et de l'afficher :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code"><span class="c_keyword">static</span> <span class="c_type">void</span> menu_addWidget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
+                            GtkContainer * p_box)
+{
+   gtk_box_pack_start (GTK_BOX (p_box), p_widget, FALSE, FALSE, 0);
+   gtk_widget_show (p_widget);
+   <span class="c_keyword">return</span>;
+}</span></pre></td></tr></table></div>
+			
+			<br /><h2 class="TitreSection1" id="LII-B">II-B. GtkActionEntry</h2>
+				
+				<div class="paragraph">
+					Après la forme, il faut associer une action pour chaque élément du menu. Ceci va être fait à l'aide de la structure <i>GtkActionEntry</i> qui est définie comme ceci :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code"><span class="c_keyword">typedef</span> <span class="c_keyword">struct</span>
+{
+   <span class="c_keyword">const</span> gchar *name;
+   <span class="c_keyword">const</span> gchar *stock_id;
+   <span class="c_keyword">const</span> gchar *label;
+   <span class="c_keyword">const</span> gchar *accelerator;
+   <span class="c_keyword">const</span> gchar *tooltip;
+   GCallback callback;
+} GtkActionEntry;</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Voici le détail de chaque champ :
+				</div><br/>
+				<ul style="list-style-type: disc;">
+					<li><i>name</i> : c'est le nom de l'élément du menu, il s'agit du nom spécifié dans le fichier XML par l'intermédiaire du paramètre <i>action</i></li>
+					<li><i>stock_id</i> : ce champ permet de spécifier une image prédéfinie (GTK_STOCK_NEW par exemple)</li>
+					<li><i>label</i> : c'est le texte qui sera affiché</li>
+					<li><i>accelerator</i> : pour spécifier un raccourcis clavier, nous y reviendront dans la suite de cet article</li>
+					<li><i>tooltip</i> : ce paramètre ne sert à rien dans le cas d'un menu, il nous sera utile lors de la création de la barre d'outils</li>
+					<li><i>callback</i> : c'est l'adresse de la fonction qui va être appelée lors d'un clique sur cet élément</li>
+				</ul>
+				<div class="paragraph">
+					Pour continuer notre exemple, voici la structure correspondant au fichier XML ci-dessus :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="other_code">  GtkActionEntry entries[] = 
+{
+  { "FichierMenuAction", NULL,            "Fichier",  NULL, NULL, NULL                     },
+  { "NouveauAction",     GTK_STOCK_NEW,   "Nouveau",  NULL, NULL, G_CALLBACK( menu_new )   },
+  { "OuvrirAction",      GTK_STOCK_OPEN,  "Ouvrir",   NULL, NULL, G_CALLBACK( menu_open )  },
+  { "QuitterAction",     GTK_STOCK_QUIT,  "Quitter",  NULL, NULL, G_CALLBACK( menu_quit )  },
+  { "AideMenuAction",    NULL,            "Aide",     NULL, NULL, NULL                     },
+  { "AideAction",        GTK_STOCK_HELP,  "Aide",     NULL, NULL, G_CALLBACK( menu_help )  },
+  { "AproposAction",     GTK_STOCK_ABOUT, "A propos", NULL, NULL, G_CALLBACK( menu_about ) }
+};</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Bien sûr les fonctions callback doivent être définies.<br />
+					Une fois la structure <i>GtkActionEntry</i> renseignée, il faut l'associer au fichier XML. Pour se faire, on commence par créer un objet de type <i>GtkActionGroup</i> :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code">p_actionGroup = gtk_action_group_new( <span class="c_ch">"menuActionGroup"</span> );</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					La fonction <i>gtk_action_group_new</i> attend comme seul paramètre le nom du groupe, comme nous ne nous en servirons pas par la suite, le choix du nom n'est pas très important, par contre GTK en a besoin. Ensuite nous allons utiliser la structure <i>GtkActionEntry</i> pour créer les actions correspondantes et les ajouter au groupe d'actions. Lors de cette étape, les fonctions callback seront associées à l'événement "activate" ainsi qu'aux raccourcis clavier. Pour faire ceci, il suffit d'appeler la fonction <i>gtk_action_group_add_actions</i> :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code">GtkActionGroup *p_actionGroup = gtk_action_group_add_actions( p_actionGroup, entries, G_N_ELEMENTS( entries ), <span class="c_keyword">NULL</span> );</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Le premier paramètre est la structure de groupe d'actions à créer, suivie d'un tableau contenant toutes les structure de type <i>GtkActionEntry</i> à regrouper. Ensuite, c'est le nombre d'éléments du tableau qui est nécessaire; la macro G_N_ELEMENTS permet de retrouver ce nombre facilement, il faut cependant noter qu'elle ne fonctionne qu'avec les tableaux statiques. Et enfin un pointeur sur une donnée utilisateur à passer aux fonctions callback. Il ne reste plus qu'a associer le groupe d'actions à la structure <i>GtkUIManager</i> :
+				</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code">gtk_ui_manager_insert_action_group( p_uiManager, p_actionGroup, 0 );</span></pre></td></tr></table></div>
+				<div class="paragraph">
+					Les deux premiers paramètres viennent d'être expliqués en détail. Le troisième, quant à lui, permet de spécifier la position à laquelle les actions sont insérées dans le groupe (puisque nous n'en avons qu'une, on la met en première position).
+				</div><br/>
+			
+		
+		<br /><h1 class="TitreSection0" id="LIII">III. Création d'une barre d'outils</h1>
+			
+			<div class="paragraph">
+				Pour créer une barre d'outils, c'est comme pour le menu sauf qu'il y a pas une ligne de code à ajouter ! Eh oui, c'est tout l'interêt de cette méthode, si vous avez le menu, en deux secondes vous obtenez la barre d'outils. Pour cela, il suffit de modifier le fichier XML (donc aucune recompilation n'est nécessaire) en utilisant les balises <i>&lt;toolbar&gt;</i> et <i>&lt;toolitem&gt;</i> comme nous avons utilisé précédement <i>&lt;menu&gt;</i> et <i>&lt;menuitem&gt;</i> :
+			</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="xml_code">&lt;<span class="xml_balise">toolbar</span>&gt;
+  &lt;<span class="xml_balise">toolitem</span> action=<span class="xml_ch">"NouveauAction"</span> /&gt;
+  &lt;<span class="xml_balise">toolitem</span> action=<span class="xml_ch">"OuvrirAction"</span> /&gt;
+  &lt;<span class="xml_balise">toolitem</span> action=<span class="xml_ch">"QuitterAction"</span> /&gt;
+  &lt;<span class="xml_balise">separator</span> /&gt;
+  &lt;<span class="xml_balise">toolitem</span> action=<span class="xml_ch">"AideAction"</span> /&gt;
+  &lt;<span class="xml_balise">toolitem</span> action=<span class="xml_ch">"AproposAction"</span> /&gt;
+&lt;/<span class="xml_balise">toolbar</span>&gt;</span></pre></td></tr></table></div>
+			<div class="paragraph">
+				Dans cette exemple, j'ai ajouté un séparateur pour illuster son utilisation. En utilisant les mêmes noms pour le paramètre <i>action</i>, nous retrouvons les mêmes attributs que pour le menu grâce à la structure <i>GtkActionEntry</i>. Il est maintenant temps de vous expliquer le rôle du champ <i>tooltip</i> de cette dernière : il permet d'ajouter une description qui apparaît lorsque le curseur de la souris reste un certain temps immobile sur le bouton. Voici donc le contenu de la nouvelle structure <i>GtkActionEntry</i> :
+			</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code">GtkActionEntry entries[] = 
+{
+  { <span class="c_ch">"FichierMenuAction"</span>, <span class="c_keyword">NULL</span>,            <span class="c_ch">"Fichier"</span>,  <span class="c_keyword">NULL</span>, <span class="c_keyword">NULL</span>,      <span class="c_keyword">NULL</span>                     },
+  { <span class="c_ch">"NouveauAction"</span>,     GTK_STOCK_NEW,   <span class="c_ch">"Nouveau"</span>,  <span class="c_keyword">NULL</span>, <span class="c_ch">"Nouveau"</span>, G_CALLBACK( menu_new )   },
+  { <span class="c_ch">"OuvrirAction"</span>,      GTK_STOCK_OPEN,  <span class="c_ch">"Ouvrir"</span>,   <span class="c_keyword">NULL</span>, <span class="c_ch">"Ouvrir"</span>,  G_CALLBACK( menu_open )  },
+  { <span class="c_ch">"QuitterAction"</span>,     GTK_STOCK_QUIT,  <span class="c_ch">"Quitter"</span>,  <span class="c_keyword">NULL</span>, <span class="c_ch">"Quitter"</span>, G_CALLBACK( menu_quit )  },
+  { <span class="c_ch">"AideMenuAction"</span>,    <span class="c_keyword">NULL</span>,            <span class="c_ch">"Aide"</span>,     <span class="c_keyword">NULL</span>, <span class="c_keyword">NULL</span>,      <span class="c_keyword">NULL</span>                     },
+  { <span class="c_ch">"AideAction"</span>,        GTK_STOCK_HELP,  <span class="c_ch">"Aide"</span>,     <span class="c_keyword">NULL</span>, <span class="c_ch">"Aide"</span>,    G_CALLBACK( menu_help )  },
+  { <span class="c_ch">"AproposAction"</span>,     GTK_STOCK_ABOUT, <span class="c_ch">"A propos"</span>, <span class="c_keyword">NULL</span>, <span class="c_ch">"About"</span>,   G_CALLBACK( menu_about ) }
+};</span></pre></td></tr></table></div>
+		
+		<br /><h1 class="TitreSection0" id="LIV">IV. Les raccourcis clavier</h1>
+			
+			<div class="paragraph">
+				Dans la structure <i>GtkActionEntry</i>, il y a un champ <i>accelerator</i> qui est destiné à contenir un raccourci clavier pour le menu correspondant. Le raccourci doit être spécifié sous forme d'une chaîne de caractères au format accepté par la fonction <i>gtk_accelerator_parse()</i>, c'est-à-dire commençant par ou moins l'une des balises suivantes :
+			</div><br/>
+			<ul style="list-style-type: disc;">
+				<li>&lt;Control&gt;</li>
+				<li>&lt;Shift&gt;</li>
+				<li>&lt;Alt&gt;</li>
+				<li>&lt;Release&gt; pour le relâchement d'une touche</li>
+			</ul>
+			<div class="paragraph">
+				Ces balises doivent être suivies, soit par une lettre qui correspond à une touche, soit pour les touches fonction de F1 jusqu'à F12. Voici la structure GtkActionEntry définitive :
+			</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="code"><pre><span class="c_code">GtkActionEntry entries[] = 
+{
+  { <span class="c_ch">"FichierMenuAction"</span>, <span class="c_keyword">NULL</span>,            <span class="c_ch">"Fichier"</span>,  <span class="c_keyword">NULL</span>,          <span class="c_keyword">NULL</span>,      <span class="c_keyword">NULL</span>                     },
+  { <span class="c_ch">"NouveauAction"</span>,     GTK_STOCK_NEW,   <span class="c_ch">"Nouveau"</span>,  <span class="c_ch">"&lt;Control&gt;N"</span>,  <span class="c_ch">"Nouveau"</span>, G_CALLBACK( menu_new )   },
+  { <span class="c_ch">"OuvrirAction"</span>,      GTK_STOCK_OPEN,  <span class="c_ch">"Ouvrir"</span>,   <span class="c_ch">"&lt;Control&gt;O"</span>,  <span class="c_ch">"Ouvrir"</span>,  G_CALLBACK( menu_open )  },
+  { <span class="c_ch">"QuitterAction"</span>,     GTK_STOCK_QUIT,  <span class="c_ch">"Quitter"</span>,  <span class="c_ch">"&lt;control&gt;Q"</span>,  <span class="c_ch">"Quitter"</span>, G_CALLBACK( menu_quit )  },
+  { <span class="c_ch">"AideMenuAction"</span>,    <span class="c_keyword">NULL</span>,            <span class="c_ch">"Aide"</span>,     <span class="c_keyword">NULL</span>,          <span class="c_keyword">NULL</span>,      <span class="c_keyword">NULL</span>                     },
+  { <span class="c_ch">"AideAction"</span>,        GTK_STOCK_HELP,  <span class="c_ch">"Aide"</span>,     <span class="c_ch">"&lt;Release&gt;F1"</span>, <span class="c_ch">"Aide"</span>,    G_CALLBACK( menu_help )  },
+  { <span class="c_ch">"AproposAction"</span>,     GTK_STOCK_ABOUT, <span class="c_ch">"A propos"</span>, <span class="c_ch">"&lt;Control&gt;A"</span>,  <span class="c_ch">"About"</span>,   G_CALLBACK( menu_about ) }
+};</span></pre></td></tr></table></div>
+		
+		<br /><h1 class="TitreSection0" id="LV">V. Conclusion</h1>
+			
+			<div class="paragraph">
+				Cette méthode de création de menu fait partie des nouveautés de la version 2.4 de GTK+. En plus d'être simple à utiliser, facilement lisible et donc maintenable, elle permet, avec un minimum d'efforts, de générer des menus dynamiquement lors de l'exécution (et plus uniquement en dur dans le code).
+			</div><br/>
+		
+		<br /><h1 class="TitreSection0" id="LVI">VI. Remerciement</h1>
+			
+			<div class="paragraph">
+				Merci à Beusse pour la relecture attentive de cet article.
+			</div><br/>
+			
+		<br /><h1 class="TitreSection0" id="LVII">VII. Code source complet</h1>
+			
+			<div class="paragraph">
+				Voici le code complet pour créer un menu à l'aide de <i>GtkUIManager</i>. Cette méthode nécessite au minimum GTK+-2.4, cependant, cet exemple utilise des fonctionnalités présentes uniquement à partir de la version 2.6 (tout ce qui concerne le menu "A propos").<br />
+				<a href="ftp://www.ftp-developpez.com/nicolasj/gtkuimanager.zip" class="lienArticle">Archive zip</a>
+			</div>
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="titre_code">menu.xml</td></tr><tr><td class="code"><pre><span class="c_code">&lt;ui&gt;
+  &lt;menubar&gt;
+    &lt;menu action=<span class="c_ch">"FichierMenuAction"</span>&gt;
+      &lt;menuitem action=<span class="c_ch">"NouveauAction"</span> /&gt;
+      &lt;menuitem action=<span class="c_ch">"OuvrirAction"</span> /&gt;
+      &lt;menuitem action=<span class="c_ch">"QuitterAction"</span> /&gt;
+    &lt;/menu&gt;
+    &lt;menu action=<span class="c_ch">"AideMenuAction"</span>&gt;
+      &lt;menuitem action=<span class="c_ch">"AideAction"</span> /&gt;
+      &lt;menuitem action=<span class="c_ch">"AproposAction"</span> /&gt;
+    &lt;/menu&gt;
+  &lt;/menubar&gt;
+  &lt;toolbar&gt;
+    &lt;toolitem action=<span class="c_ch">"NouveauAction"</span> /&gt;
+    &lt;toolitem action=<span class="c_ch">"OuvrirAction"</span> /&gt;
+    &lt;toolitem action=<span class="c_ch">"QuitterAction"</span> /&gt;
+    &lt;separator /&gt;
+    &lt;toolitem action=<span class="c_ch">"AideAction"</span> /&gt;
+    &lt;toolitem action=<span class="c_ch">"AproposAction"</span> /&gt;
+  &lt;/toolbar&gt;
+&lt;/ui&gt;</span></pre></td></tr></table></div>
+
+<div style="text-align:center;"><table style="width:90%;margin:10px auto;border-collapse: collapse;"><tr><td class="titre_code">main.c</td></tr><tr><td class="code"><pre><span class="c_code"><span class="c_define">#include &lt;stdlib.h&gt;</span>
+<span class="c_define">#include &lt;gtk/gtk.h&gt;</span>
+
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_new (<span class="c_type">void</span>);
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_open (<span class="c_type">void</span>);
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_quit (<span class="c_type">void</span>);
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_help (<span class="c_type">void</span>);
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_about (<span class="c_type">void</span>);
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_addWidget (GtkUIManager *, GtkWidget *, GtkContainer *);
+
+<span class="c_type">int</span> main (<span class="c_type">int</span> argc, <span class="c_type">char</span> **argv)
+{
+   GtkWidget *p_window = <span class="c_keyword">NULL</span>;
+   GtkWidget *p_vBox = <span class="c_keyword">NULL</span>;
+   GtkUIManager *p_uiManager = <span class="c_keyword">NULL</span>;
+   GtkActionGroup *p_actionGroup = <span class="c_keyword">NULL</span>;
+   GtkActionEntry entries[] = {
+      {<span class="c_ch">"FichierMenuAction"</span>, <span class="c_keyword">NULL</span>, <span class="c_ch">"Fichier"</span>, <span class="c_keyword">NULL</span>, <span class="c_keyword">NULL</span>, <span class="c_keyword">NULL</span>},
+      {<span class="c_ch">"NouveauAction"</span>, GTK_STOCK_NEW, <span class="c_ch">"Nouveau"</span>, <span class="c_ch">"&lt;Control&gt;N"</span>, <span class="c_ch">"Nouveau"</span>,
+       G_CALLBACK (menu_new)},
+      {<span class="c_ch">"OuvrirAction"</span>, GTK_STOCK_OPEN, <span class="c_ch">"Ouvrir"</span>, <span class="c_ch">"&lt;Control&gt;O"</span>, <span class="c_ch">"Ouvrir"</span>,
+       G_CALLBACK (menu_open)},
+      {<span class="c_ch">"QuitterAction"</span>, GTK_STOCK_QUIT, <span class="c_ch">"Quitter"</span>, <span class="c_ch">"&lt;control&gt;Q"</span>, <span class="c_ch">"Quitter"</span>,
+       G_CALLBACK (menu_quit)},
+      {<span class="c_ch">"AideMenuAction"</span>, <span class="c_keyword">NULL</span>, <span class="c_ch">"Aide"</span>, <span class="c_keyword">NULL</span>, <span class="c_keyword">NULL</span>, <span class="c_keyword">NULL</span>},
+      {<span class="c_ch">"AideAction"</span>, GTK_STOCK_HELP, <span class="c_ch">"Aide"</span>, <span class="c_ch">"&lt;Release&gt;F1"</span>, <span class="c_ch">"Aide"</span>,
+       G_CALLBACK (menu_help)},
+      {<span class="c_ch">"AproposAction"</span>, GTK_STOCK_ABOUT, <span class="c_ch">"A propos"</span>, <span class="c_ch">"&lt;Control&gt;A"</span>, <span class="c_ch">"About"</span>,
+       G_CALLBACK (menu_about)}
+   };
+<span class="c_comment">/* Initialisation */</span>
+   gtk_init (&amp;argc, &amp;argv);
+<span class="c_comment">/* Creation de la fenetre principale */</span>
+   p_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+   gtk_window_set_title (GTK_WINDOW (p_window),
+                         <span class="c_ch">"Utilisation de GtkUIManager"</span>);
+   g_signal_connect (G_OBJECT (p_window), <span class="c_ch">"destroy"</span>,
+                     G_CALLBACK (gtk_main_quit), <span class="c_keyword">NULL</span>);
+<span class="c_comment">/* Creation d'une vBox */</span>
+   p_vBox = gtk_vbox_new (FALSE, 0);
+   gtk_container_add (GTK_CONTAINER (p_window), p_vBox);
+<span class="c_comment">/* Creation du menu */</span>
+   p_uiManager = gtk_ui_manager_new ();
+   p_actionGroup = gtk_action_group_new (<span class="c_ch">"menuActionGroup"</span>);
+   gtk_action_group_add_actions (p_actionGroup, entries,
+                                 G_N_ELEMENTS (entries), <span class="c_keyword">NULL</span>);
+   gtk_ui_manager_insert_action_group (p_uiManager, p_actionGroup, 0);
+   gtk_ui_manager_add_ui_from_file (p_uiManager, <span class="c_ch">"menu.xml"</span>, <span class="c_keyword">NULL</span>);
+   g_signal_connect
+      (p_uiManager, <span class="c_ch">"add_widget"</span>, G_CALLBACK (menu_addWidget), p_vBox);
+<span class="c_comment">/* Boucle principale */</span>
+   gtk_widget_show_all (p_window);
+   gtk_main ();
+<span class="c_comment">/* destruction */</span>
+   <span class="c_keyword">return</span> (EXIT_SUCCESS);
+}
+
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_addWidget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
+                            GtkContainer * p_box)
+{
+   gtk_box_pack_start (GTK_BOX (p_box), p_widget, FALSE, FALSE, 0);
+   gtk_widget_show (p_widget);
+   <span class="c_keyword">return</span>;
+}
+
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_new (<span class="c_type">void</span>)
+{
+   GtkWidget *p_dialog = <span class="c_keyword">NULL</span>;
+
+   p_dialog = gtk_message_dialog_new
+      (<span class="c_keyword">NULL</span>, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, <span class="c_ch">"Nouveau"</span>);
+   gtk_dialog_run (GTK_DIALOG (p_dialog));
+   gtk_widget_destroy (p_dialog);
+   <span class="c_keyword">return</span>;
+}
+
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_open (<span class="c_type">void</span>)
+{
+   GtkWidget *p_dialog = <span class="c_keyword">NULL</span>;
+
+   p_dialog = gtk_message_dialog_new
+      (<span class="c_keyword">NULL</span>, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, <span class="c_ch">"Ouvrir"</span>);
+   gtk_dialog_run (GTK_DIALOG (p_dialog));
+   gtk_widget_destroy (p_dialog);
+   <span class="c_keyword">return</span>;
+}
+
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_quit (<span class="c_type">void</span>)
+{
+   gtk_main_quit ();
+   <span class="c_keyword">return</span>;
+}
+
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_help (<span class="c_type">void</span>)
+{
+   GtkWidget *p_dialog = <span class="c_keyword">NULL</span>;
+
+   p_dialog = gtk_message_dialog_new
+      (<span class="c_keyword">NULL</span>, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, <span class="c_ch">"Aide"</span>);
+   gtk_dialog_run (GTK_DIALOG (p_dialog));
+   gtk_widget_destroy (p_dialog);
+   <span class="c_keyword">return</span>;
+}
+
+<span class="c_keyword">static</span> <span class="c_type">void</span> menu_about (<span class="c_type">void</span>)
+{
+   GError *error = <span class="c_keyword">NULL</span>;
+   GIOChannel *channel = <span class="c_keyword">NULL</span>;
+
+   channel = g_io_channel_new_file (<span class="c_ch">"licence.txt"</span>, <span class="c_ch">"r"</span>, &amp;error);
+   <span class="c_keyword">if</span> (channel != <span class="c_keyword">NULL</span>)
+   {
+      <span class="c_type">char</span> *text = <span class="c_keyword">NULL</span>;
+
+      <span class="c_keyword">if</span> (g_io_channel_read_to_end (channel, &amp;text, 0, &amp;error) ==
+          G_IO_STATUS_NORMAL)
+      {
+         GtkWidget *p_dialog = gtk_about_dialog_new ();
+
+         gtk_about_dialog_set_name (GTK_ABOUT_DIALOG (p_dialog),
+                                    <span class="c_ch">"Exemple d'utilisation de GtkUIManager"</span>);
+         gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (p_dialog),
+                                         <span class="c_ch">"Nicolas JOSEPH"</span>);
+         gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (p_dialog), text);
+         gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (p_dialog),
+                                       <span class="c_ch">"http://nicolasj.developpez.com"</span>);
+         gtk_dialog_run (GTK_DIALOG (p_dialog));
+         g_free (text);
+         <span class="c_keyword">if</span> (g_io_channel_shutdown (channel, FALSE, &amp;error) ==
+             G_IO_STATUS_ERROR)
+         {
+            GtkWidget *p_dialog = <span class="c_keyword">NULL</span>;
+
+            p_dialog = gtk_message_dialog_new
+               (<span class="c_keyword">NULL</span>,
+                GTK_DIALOG_MODAL,
+                GTK_MESSAGE_INFO, GTK_BUTTONS_OK, error-&gt;message);
+            gtk_dialog_run (GTK_DIALOG (p_dialog));
+            gtk_widget_destroy (p_dialog);
+         }
+      }
+   }
+   <span class="c_keyword">if</span> (error != <span class="c_keyword">NULL</span>)
+   {
+      GtkWidget *p_dialog = <span class="c_keyword">NULL</span>;
+
+      p_dialog = gtk_message_dialog_new
+         (<span class="c_keyword">NULL</span>,
+          GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, error-&gt;message);
+      gtk_dialog_run (GTK_DIALOG (p_dialog));
+      gtk_widget_destroy (p_dialog);
+   }
+   <span class="c_keyword">return</span>;
+}</span></pre></td></tr></table></div>
+			
+		
+	<br/><hr/><p class="licence">Les sources présentés sur cette pages sont libre de droits,
+			et vous pouvez les utiliser à votre convenance. Par contre cette page de présentation de ces sources constitue une oeuvre intellectuelle protégée par les droits d'auteurs. Copyright &copy;2006 Nicolas Joseph.
+			Aucune reproduction, même partielle, ne peut être faite de ce site et de l'ensemble de son contenu :
+			textes, documents, images, etc sans l'autorisation expresse de l'auteur. Sinon vous encourez selon la loi jusqu'à 3 ans de prison et jusqu'à 300 000 E de dommages et intérets.
+			Cette page est déposée à la <a href="http://www.sacd.fr/" >SACD</a>.</p>
+												</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table></div>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<table width="100%" cellpadding="4" class="cachee">
+				<tr>
+					<td class="titrepied">
+			  Vos questions techniques : <b><a href="http://www.developpez.net/forums/" >forum d'entraide Accueil</a></b> - Publiez vos articles, tutoriels, cours
+			  et rejoignez-nous dans l'&eacute;quipe de r&eacute;daction du club d'entraide des d&eacute;veloppeurs francophones. <a href="http://club.developpez.com/contacts/">Nous contacter</a>
+	
+			  - Copyright 2000..2005 www.developpez.com
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</body>
+</html>
+
+	
